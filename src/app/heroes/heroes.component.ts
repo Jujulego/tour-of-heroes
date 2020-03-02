@@ -19,7 +19,14 @@ export class HeroesComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
-    this.heroes = this.heroService.getHeroes();
+    this.getHeroes();
+  }
+
+  // Methods
+  getHeroes() {
+    this.heroService.getHeroes().subscribe(
+      heroes => this.heroes = heroes
+    );
   }
 
   // Handlers
