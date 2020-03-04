@@ -11,6 +11,8 @@ import { Hero } from '../hero';
 })
 export class HeroesComponent implements OnInit {
   // Attributes
+  adding = false;
+  loading = false;
   heroes: Hero[];
 
   // Constructor
@@ -23,17 +25,24 @@ export class HeroesComponent implements OnInit {
 
   // Methods
   getHeroes() {
-    this.heroService.getHeroes().subscribe(
-      heroes => this.heroes = heroes
-    );
+    this.loading = true;
+    this.heroService.getHeroes()
+      .subscribe(heroes => {
+        this.loading = false;
+        this.heroes = heroes;
+      });
   }
 
   addHero(name: string) {
     name = name.trim();
-
     if (!name) { return; }
+
+    this.adding = true;
     this.heroService.addHero({ name })
-      .subscribe(hero => this.heroes.push(hero));
+      .subscribe(hero => {
+        this.adding = false;
+        this.heroes.push(hero);
+      });
   }
 
   deleteHero(hero: Hero) {
