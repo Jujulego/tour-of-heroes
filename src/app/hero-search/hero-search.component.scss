@@ -12,6 +12,14 @@ mat-card {
     }
   }
 
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+  }
+
   mat-nav-list {
     padding-top: 0;
   }

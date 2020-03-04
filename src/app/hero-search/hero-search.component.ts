@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { HeroService } from '../hero.service';
 
 import { Hero } from '../hero';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hero-search',
@@ -13,6 +13,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 })
 export class HeroSearchComponent implements OnInit {
   // Attributes
+  empty = false;
+  loading = false;
   heroes$: Observable<Hero[]>;
   private terms = new Subject<string>();
 
@@ -27,7 +29,14 @@ export class HeroSearchComponent implements OnInit {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap((term: string) => this.heroService.searchHeroes(term))
+        switchMap((term: string) => {
+          this.loading = true;
+          return this.heroService.searchHeroes(term);
+        }),
+        tap((heroes) => {
+          this.empty = heroes.length === 0;
+          this.loading = false;
+        })
       );
   }
 
