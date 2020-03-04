@@ -1,0 +1,19 @@
+// Rules
+:host {
+  display: block;
+}
+
+mat-card-content {
+  margin-bottom: 0;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.back-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+}

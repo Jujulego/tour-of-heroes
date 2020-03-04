@@ -1,13 +1,27 @@
-<div *ngIf="hero">
-  <h2>{{ hero.name | uppercase }} Details</h2>
-  <div>
-    <span>Id: </span>{{ hero.id }}
-  </div>
-  <div>
-    <label>Name: <input [(ngModel)]="hero.name" placeholder="Name" /></label>
-  </div>
+<mat-card *ngIf="hero">
+  <mat-card-header>
+    <mat-card-title>{{ hero.name | uppercase }} Details</mat-card-title>
+  </mat-card-header>
 
-  <button (click)="save()">Save</button>
-  <button (click)="delete()">Delete</button>
-  <button (click)="goBack()">Go back</button>
-</div>
+  <mat-card-content>
+    <div class="grid">
+      <mat-form-field>
+        <mat-label>Id</mat-label>
+        <input matInput [value]="hero.id" disabled />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="hero.name" />
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button color="warn" (click)="delete()">DELETE</button>
+    <button mat-button color="primary" (click)="save()">SAVE</button>
+  </mat-card-actions>
+</mat-card>
+
+<button class="back-btn" mat-fab (click)="goBack()">
+  <mat-icon>arrow_backward</mat-icon>
+</button>
