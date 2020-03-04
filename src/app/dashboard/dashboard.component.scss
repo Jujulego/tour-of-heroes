@@ -10,14 +10,14 @@ $foreground: map-get($tour-of-heroes-theme, foreground);
 
 .heroes {
   display: flex;
+  flex-wrap: wrap;
 
   > * {
-    margin-left: 8px;
-    margin-right: 8px;
+    margin: 8px;
   }
 
   a {
-    flex-grow: 1;
+    flex: 1 0;
 
     color: mat-color($foreground, text);
     text-underline: mat-color($foreground, text);

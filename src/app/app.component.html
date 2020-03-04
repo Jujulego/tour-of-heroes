@@ -1,8 +1,18 @@
-<h1>{{ title }}</h1>
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
+  <mat-toolbar color="primary">
+    <h1 class="title">{{ title }}</h1>
+
+    <a mat-button routerLink="/dashboard">
+      Dashboard
+    </a>
+    <a mat-button routerLink="/heroes">
+      Heroes
+    </a>
+  </mat-toolbar>
+  <mat-toolbar class="fake"></mat-toolbar>
 </nav>
 
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+<main>
+  <router-outlet></router-outlet>
+  <app-messages></app-messages>
+</main>
