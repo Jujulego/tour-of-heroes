@@ -17,7 +17,7 @@ $foreground: map-get($tour-of-heroes-theme, foreground);
 
   .top-heroes {
     min-width: 300px;
-    flex-grow: 1;
+    flex-grow: 2;
 
     mat-card {
       padding: 0;

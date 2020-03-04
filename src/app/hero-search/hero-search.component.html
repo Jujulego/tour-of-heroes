@@ -1,10 +1,7 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Search Hero</mat-card-title>
-  </mat-card-header>
-
   <mat-card-content>
     <mat-form-field appearance="standard">
+      <mat-label>Search Heroes</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input matInput #searchBox (input)="search(searchBox.value)" />
     </mat-form-field>
