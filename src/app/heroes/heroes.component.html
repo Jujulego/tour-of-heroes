@@ -1,16 +1,38 @@
-<h2>My Heroes</h2>
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/details/{{ hero.id }}">
-      <span class="badge">{{ hero.id.slice(0, 4) }}</span> {{ hero.name }}
-    </a>
-    <button class="delete" title="delete hero" (click)="deleteHero(hero)">x</button>
-  </li>
-</ul>
+<div class="grid">
+  <div class="heroes">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>My Heroes</mat-card-title>
+      </mat-card-header>
 
-<div>
-  <label>
-    Hero name: <input #heroName />
-  </label>
-  <button (click)="addHero(heroName.value)">Add</button>
+      <mat-list>
+        <mat-list-item class="hero" *ngFor="let hero of heroes; last as last">
+          <a routerLink="/details/{{ hero.id }}">
+            {{ hero.name }}
+          </a>
+          <button mat-icon-button (click)="deleteHero(hero)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+
+  <div class="add-hero">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Add Hero</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Name</mat-label>
+          <input matInput #heroName />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button color="primary" (click)="addHero(heroName.value)">ADD</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
