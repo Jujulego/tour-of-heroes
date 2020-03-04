@@ -12,9 +12,10 @@
   left: 0;
   background-color: #EEE;
   margin: .5em;
-  padding: .3em 0;
+  padding: 4px 0;
   height: 1.6em;
   border-radius: 4px;
+  display: flex;
 }
 
 .heroes li:hover {
@@ -33,6 +34,10 @@
   color: white;
 }
 
+.heroes li a {
+  flex-grow: 1;
+}
+
 .heroes .badge {
   display: inline-block;
   font-size: small;
@@ -46,4 +51,15 @@
   height: 1.8em;
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
+}
+
+.heroes .delete {
+  display: inline-block;
+  border: none;
+  color: white;
+  background-color: #f44336;
+  position: relative;
+  top: -4px;
+  height: calc(100% + 8px);
+  border-radius: 0 4px 4px 0;
 }

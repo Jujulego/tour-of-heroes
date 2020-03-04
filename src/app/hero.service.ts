@@ -12,7 +12,7 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class HeroService {
   // Attributes
-  private heroesUrl = 'api/heroes';
+  private heroesUrl = 'http://localhost:3000/heroes';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -60,7 +60,7 @@ export class HeroService {
       );
   }
 
-  getHero(id: number): Observable<Hero> {
+  getHero(id: string): Observable<Hero> {
     return this.http.get<Hero>(`${this.heroesUrl}/${id}`, this.httpOptions)
       .pipe(
         tap(_ => this.log(`fetched hero ${id}`)),
