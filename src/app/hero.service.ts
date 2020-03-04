@@ -7,12 +7,16 @@ import { MessageService } from './message.service';
 import { Hero } from './hero';
 import { catchError, tap } from 'rxjs/operators';
 
+import { environment as env } from '../environments/environment';
+
+const BASE_URL = env.memoryApi ? 'api' : 'http://localhost:3000';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
   // Attributes
-  private heroesUrl = 'api/heroes';
+  private heroesUrl = `${BASE_URL}/heroes`;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
