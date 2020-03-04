@@ -12,7 +12,7 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class HeroService {
   // Attributes
-  private heroesUrl = 'http://localhost:3000/heroes';
+  private heroesUrl = 'api/heroes';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
