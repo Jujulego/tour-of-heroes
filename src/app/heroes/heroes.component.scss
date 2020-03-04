@@ -5,6 +5,7 @@
 
 .grid {
   display: flex;
+  margin: -8px;
 
   > div {
     margin: 8px;
@@ -14,16 +15,6 @@
 .heroes {
   min-width: 300px;
   flex-grow: 1;
-
-  mat-card {
-    padding: 0;
-
-    mat-card-header {
-      padding-top: 16px;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  }
 
   .hero a {
     flex-grow: 1;

@@ -4,15 +4,15 @@
 }
 
 mat-card {
-  padding: 0;
-
   mat-card-content {
     margin-bottom: 0;
-    padding-left: 16px;
-    padding-right: 16px;
 
     mat-form-field {
       width: 100%;
     }
+  }
+
+  mat-nav-list {
+    padding-top: 0;
   }
 }

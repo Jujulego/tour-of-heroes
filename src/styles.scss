@@ -35,6 +35,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-card > mat-list, mat-card > mat-nav-list {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
 // Links
 a {
   color: mat-color($tour-of-heroes-primary, default);
@@ -43,4 +52,17 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+// Buttons
+mat-card-header [mat-icon-button] {
+  margin-top: -8px;
+
+  &.edge-start {
+    margin-left: -8px;
+  }
+
+  &.edge-end {
+    margin-right: -8px;
+  }
 }
