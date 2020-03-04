@@ -12,6 +12,7 @@ import { Hero } from '../hero';
 export class DashboardComponent implements OnInit {
   // Attributes
   heroes: Hero[];
+  loading = false;
 
   // Constructor
   constructor(private heroService: HeroService) { }
@@ -23,8 +24,12 @@ export class DashboardComponent implements OnInit {
 
   // Methods
   getHeroes() {
-    this.heroService.getHeroes().subscribe(
-      heroes => this.heroes = heroes.slice(1, 5)
-    );
+    this.loading = true;
+
+    this.heroService.getHeroes()
+      .subscribe(heroes => {
+        this.loading = false;
+        this.heroes = heroes.slice(1, 5);
+      });
   }
 }

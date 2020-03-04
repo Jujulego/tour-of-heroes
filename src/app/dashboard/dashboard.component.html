@@ -3,8 +3,19 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>Top Heroes</mat-card-title>
+        <div class="grow"></div>
+        <button
+          mat-icon-button class="edge-end"
+          [disabled]="loading"
+          (click)="getHeroes()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
       </mat-card-header>
-      <mat-nav-list>
+      <mat-card-content *ngIf="loading" class="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </mat-card-content>
+      <mat-nav-list *ngIf="!loading">
         <a mat-list-item *ngFor="let hero of heroes; last as last" routerLink="/details/{{ hero.id }}">
           <span>{{ hero.name }}</span>
           <mat-divider *ngIf="!last"></mat-divider>
