@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MessageService } from '../message.service';
 
@@ -8,6 +8,14 @@ import { MessageService } from '../message.service';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent {
+  // Attributes
+  deployed = false;
+
   // Constructor
   constructor(public messageService: MessageService) {}
+
+  // Handlers
+  toggle() {
+    this.deployed = !this.deployed;
+  }
 }

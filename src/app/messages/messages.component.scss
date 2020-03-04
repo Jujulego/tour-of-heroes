@@ -1,4 +1,44 @@
+@import "src/styles";
+
 // Rules
 :host {
   display: block;
+}
+
+.panel {
+  position: fixed;
+  left: 24px;
+  bottom: 0;
+  z-index: 800;
+
+  height: 300px;
+  width: 400px;
+
+  padding: 0;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  transition: height 500ms;
+
+  &.reduced {
+    height: 52px;
+  }
+
+  mat-card-header {
+    @include mat-elevation(2);
+
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  mat-list {
+    max-height: calc(100% - 76px);
+
+    margin: 0;
+    padding-bottom: 16px;
+
+    overflow-y: auto;
+  }
 }

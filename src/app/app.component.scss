@@ -16,23 +16,6 @@ mat-toolbar:not(.fake) {
   }
 }
 
-.content {
-  display: flex;
+main {
   padding: 16px;
-
-  > * {
-    margin: 8px;
-  }
-
-  main {
-    flex-grow: 1;
-
-    .fake-toolbar {
-      height: 64px;
-    }
-  }
-
-  app-messages {
-    width: 400px;
-  }
 }
