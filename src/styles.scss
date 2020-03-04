@@ -25,6 +25,22 @@ $tour-of-heroes-theme: mat-dark-theme($tour-of-heroes-primary, $tour-of-heroes-a
 // that you are using.
 @include angular-material-theme($tour-of-heroes-theme);
 
-/* Application-wide Styles */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Blocks
+html, body {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Links
+a {
+  color: mat-color($tour-of-heroes-primary, default);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

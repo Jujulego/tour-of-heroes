@@ -1,0 +1,30 @@
+@import 'src/styles';
+
+// Variables
+$foreground: map-get($tour-of-heroes-theme, foreground);
+
+// Rules
+:host {
+  display: block;
+}
+
+.heroes {
+  display: flex;
+
+  > * {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  a {
+    flex-grow: 1;
+
+    color: mat-color($foreground, text);
+    text-underline: mat-color($foreground, text);
+
+    h4 {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
