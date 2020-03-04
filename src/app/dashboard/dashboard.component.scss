@@ -8,23 +8,30 @@ $foreground: map-get($tour-of-heroes-theme, foreground);
   display: block;
 }
 
-.heroes {
+.grid {
   display: flex;
-  flex-wrap: wrap;
 
   > * {
     margin: 8px;
   }
 
-  a {
-    flex: 1 0;
+  .top-heroes {
+    min-width: 300px;
+    flex-grow: 1;
 
-    color: mat-color($foreground, text);
-    text-underline: mat-color($foreground, text);
+    mat-card {
+      padding: 0;
 
-    h4 {
-      margin: 0;
-      text-align: center;
+      mat-card-header {
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
     }
+  }
+
+  .search {
+    min-width: 300px;
+    flex-grow: 1;
   }
 }

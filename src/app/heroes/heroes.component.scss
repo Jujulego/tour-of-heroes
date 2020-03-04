@@ -7,7 +7,6 @@
   display: flex;
 
   > div {
-    height: auto;
     margin: 8px;
   }
 }
@@ -28,6 +27,8 @@
 
   .hero a {
     flex-grow: 1;
+
+    color: inherit;
   }
 }
 
