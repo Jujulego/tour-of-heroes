@@ -13,7 +13,9 @@ import { Hero } from '../hero';
 })
 export class HeroDetailsComponent implements OnInit {
   // Attributes
+  id: string;
   hero: Hero;
+  loading = false;
 
   // Constructor
   constructor(
@@ -29,9 +31,14 @@ export class HeroDetailsComponent implements OnInit {
 
   // Methods
   getHero() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.loading = true;
+    this.heroService.getHero(this.id)
+      .subscribe(hero => {
+        this.loading = false;
+        this.hero = hero;
+      });
   }
 
   save() {

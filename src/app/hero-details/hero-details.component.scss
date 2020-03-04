@@ -3,13 +3,26 @@
   display: block;
 }
 
-mat-card-content {
-  margin-bottom: 0;
-}
+mat-card {
+  max-width: 500px;
 
-.grid {
-  display: flex;
-  flex-direction: column;
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 112px;
+  }
+
+  mat-card-content {
+    margin-bottom: 0;
+
+    padding-top: 8px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
 }
 
 .back-btn {
