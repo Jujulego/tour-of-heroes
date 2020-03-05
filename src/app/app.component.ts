@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+
+import { AppBarService } from './app-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  // Attributes
   title = 'Tour of Heroes';
+
+  // Constructor
+  constructor(
+    public appBar: AppBarService,
+    private location: Location,
+  ) {}
+
+  // Handlers
+  goBack() {
+    this.location.back();
+  }
 }
