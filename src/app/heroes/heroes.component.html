@@ -17,17 +17,18 @@
         <mat-spinner diameter="30"></mat-spinner>
       </mat-card-content>
 
-      <mat-list>
-        <mat-list-item class="hero" *ngFor="let hero of heroes; last as last">
-          <a routerLink="/details/{{ hero.id }}">
-            {{ hero.name }}
-          </a>
-          <button mat-icon-button (click)="deleteHero(hero)">
+      <mat-nav-list>
+        <a mat-list-item class="hero"
+          routerLink="/details/{{ hero.id }}"
+          *ngFor="let hero of heroes; last as last"
+        >
+          <span>{{ hero.name }}</span>
+          <button mat-icon-button (click)="deleteHero($event, hero)">
             <mat-icon>delete</mat-icon>
           </button>
           <mat-divider *ngIf="!last"></mat-divider>
-        </mat-list-item>
-      </mat-list>
+        </a>
+      </mat-nav-list>
     </mat-card>
   </div>
 
