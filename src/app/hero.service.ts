@@ -9,7 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { environment as env } from '../environments/environment';
 
-const BASE_URL = env.memoryApi ? 'api' : 'http://localhost:3000';
+const BASE_URL = env.memoryApi ? 'api' : env.baseUrl;
 
 @Injectable({
   providedIn: 'root'
