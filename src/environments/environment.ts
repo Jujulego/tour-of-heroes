@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  memoryApi: false,
+  memoryApi: true,
   baseUrl: 'http://localhost:3000'
 };
 
