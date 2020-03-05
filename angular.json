@@ -121,6 +121,13 @@
               "devServerTarget": "tour-of-heroes:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/tour-of-heroes/",
+            "repo": "https://github.com/Jujulego/tour-of-heroes.git"
+          }
         }
       }
     }
