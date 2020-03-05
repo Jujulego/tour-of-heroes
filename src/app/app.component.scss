@@ -10,9 +10,17 @@ mat-toolbar:not(.fake) {
   position: fixed;
   top: 0;
   z-index: 1000;
+}
 
-  .title {
-    flex-grow: 1;
+mat-drawer-container {
+  height: 100vh;
+
+  mat-drawer {
+    width: 250px;
+  }
+
+  mat-drawer-content {
+    position: relative;
   }
 }
 
