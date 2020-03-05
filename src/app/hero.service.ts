@@ -67,7 +67,7 @@ export class HeroService {
   getHero(id: string): Observable<Hero> {
     return this.http.get<Hero>(`${this.heroesUrl}/${id}`, this.httpOptions)
       .pipe(
-        tap(_ => this.log(`fetched hero ${id}`)),
+        tap(_ => this.log(`fetched hero ${id.slice(0, 8)}`)),
         catchError(this.handleError<Hero>(`getHero(id=${id})`))
       );
   }
@@ -75,7 +75,7 @@ export class HeroService {
   addHero(hero: Pick<Hero, 'name'>): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions)
       .pipe(
-        tap(newHero => this.log(`created hero ${newHero.id}`)),
+        tap(newHero => this.log(`created hero ${newHero.id.slice(0, 8)}`)),
         catchError(this.handleError<Hero>(`addHero(hero.name=${hero.name})`))
       );
   }
@@ -83,7 +83,7 @@ export class HeroService {
   updateHero(hero: Hero): Observable<Hero> {
     return this.http.put<Hero>(this.heroesUrl, hero, this.httpOptions)
       .pipe(
-        tap(_ => this.log(`updated hero ${hero.id}`)),
+        tap(_ => this.log(`updated hero ${hero.id.slice(0, 8)}`)),
         catchError(this.handleError<Hero>(`updateHero(hero.id=${hero.id})`))
       );
   }
@@ -91,7 +91,7 @@ export class HeroService {
   deleteHero(hero: Hero): Observable<any> {
     return this.http.delete(`${this.heroesUrl}/${hero.id}`, this.httpOptions)
       .pipe(
-        tap(_ => this.log(`deleted hero ${hero.id}`)),
+        tap(_ => this.log(`deleted hero ${hero.id.slice(0, 8)}`)),
         catchError(this.handleError<any>(`deleteHero(hero.id=${hero.id})`))
       );
   }
