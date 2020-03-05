@@ -24,16 +24,17 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
     private appBar: AppBarService,
     private heroService: HeroService,
     private location: Location
-  ) {}
+  ) {
+    this.appBar.showBack();
+  }
 
   // Lifecycle
   ngOnInit(): void {
-    this.appBar.backButton = true;
     this.getHero();
   }
 
   ngOnDestroy(): void {
-    this.appBar.backButton = false;
+    this.appBar.back = false;
   }
 
   // Methods

@@ -5,5 +5,10 @@ import { Injectable } from '@angular/core';
 })
 export class AppBarService {
   // Attributes
-  backButton = false;
+  back = false;
+
+  // Methods
+  showBack() {
+    this.back = true;
+  }
 }
