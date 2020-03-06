@@ -24,6 +24,7 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
 
 import { environment as env } from '../environments/environment';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     HeroDetailsComponent,
     MessagesComponent,
     DashboardComponent,
-    HeroSearchComponent
+    HeroSearchComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

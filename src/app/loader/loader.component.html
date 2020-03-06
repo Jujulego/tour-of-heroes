@@ -1,0 +1,18 @@
+<svg viewBox="0,0,1000,1000"
+  [attr.width]="size"
+  [attr.height]="size"
+>
+  <g>
+    <circle class="part"
+      *ngFor="let node of nodes"
+      [attr.cx]="node.x"
+      [attr.cy]="node.y"
+      [attr.r]="node.radius"
+    />
+  </g>
+  <circle class="center"
+    [attr.cx]="center.fx"
+    [attr.cy]="center.fy"
+    [attr.r]="center.radius"
+  />
+</svg>

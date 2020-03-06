@@ -1,0 +1,10 @@
+@import "src/styles";
+
+// Rules
+.center {
+  fill: mat-color($tour-of-heroes-primary, default);
+}
+
+.part {
+  fill: mat-color($tour-of-heroes-primary, darker);
+}
