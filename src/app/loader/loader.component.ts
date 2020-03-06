@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 
-import { Simultation, forceSimulation, forceRadial } from 'd3';
+import { Simulation, SimulationLinkDatum, forceSimulation, forceRadial } from 'd3';
 
 import { Node } from './node';
 
@@ -27,7 +27,7 @@ export class LoaderComponent implements OnInit {
 
   private id = 1;
   private theta = 0;
-  private forces: Simultation;
+  private forces: Simulation<Node, SimulationLinkDatum<Node>>;
 
   // Lifecycle
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class LoaderComponent implements OnInit {
   // Methods
   private initLoader() {
     // Init simulation
-    this.forces = forceSimulation()
+    this.forces = forceSimulation<Node, SimulationLinkDatum<Node>>()
       .nodes(this.nodes)
       .alphaDecay(0)
       .force('attract', forceRadial(0)
