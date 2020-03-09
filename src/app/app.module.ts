@@ -38,6 +38,7 @@ import { LoaderComponent } from './loader/loader.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
 
@@ -48,7 +49,6 @@ import { LoaderComponent } from './loader/loader.component';
       ),
     ] : []),
 
-    BrowserAnimationsModule,
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
