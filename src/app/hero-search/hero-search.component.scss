@@ -6,6 +6,10 @@
 mat-card {
   padding-top: 8px;
 
+  &.prune {
+    min-height: 150px;
+  }
+
   app-loader-overlay {
     top: 70px;
     height: calc(100% - 70px);

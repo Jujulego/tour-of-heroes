@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operato
 })
 export class HeroSearchComponent implements OnInit {
   // Attributes
+  dirty = false;
   empty = false;
   loading = false;
   heroes$: Observable<Hero[]>;
@@ -34,6 +35,7 @@ export class HeroSearchComponent implements OnInit {
           return this.heroService.searchHeroes(term);
         }),
         tap((heroes) => {
+          this.dirty = true;
           this.empty = heroes.length === 0;
           this.loading = false;
         })
