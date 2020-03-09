@@ -4,20 +4,34 @@
 }
 
 mat-card {
+  padding-top: 8px;
+
+  app-loader-overlay {
+    top: 70px;
+    height: calc(100% - 70px);
+
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
   mat-card-content {
+    min-height: 48px;
     margin-bottom: 0;
+
+    display: flex;
+    align-items: center;
 
     mat-form-field {
       width: 100%;
     }
   }
 
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .content {
+    position: relative;
 
-    height: 40px;
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: -16px;
   }
 
   mat-nav-list {

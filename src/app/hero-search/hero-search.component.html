@@ -7,11 +7,10 @@
     </mat-form-field>
   </mat-card-content>
 
-  <mat-card-content *ngIf="loading" class="loading">
-    <app-loader size="30"></app-loader>
-  </mat-card-content>
+  <app-loader-overlay *ngIf="loading"></app-loader-overlay>
+  <mat-card-content *ngIf="loading"></mat-card-content>
 
-  <mat-card-content *ngIf="empty">
+  <mat-card-content *ngIf="empty && !loading">
     <p><em>No heroes found</em></p>
   </mat-card-content>
 
