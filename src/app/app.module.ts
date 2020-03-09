@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
@@ -21,11 +22,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
-
-import { environment as env } from '../environments/environment';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
+import { HeroListComponent } from './hero-list/hero-list.component';
+
+import { environment as env } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.componen
     DashboardComponent,
     HeroSearchComponent,
     LoaderComponent,
-    LoaderOverlayComponent
+    LoaderOverlayComponent,
+    HeroListComponent
   ],
   imports: [
     BrowserModule,

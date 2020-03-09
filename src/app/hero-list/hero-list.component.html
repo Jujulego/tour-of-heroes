@@ -1,0 +1,16 @@
+<mat-nav-list [@heroes]="heroes.length">
+  <a mat-list-item class="hero"
+     routerLink="/details/{{ hero.id }}"
+     *ngFor="let hero of heroes; last as last"
+  >
+    <span>{{ hero.name }}</span>
+    <button
+      mat-icon-button
+      *ngIf="canDelete"
+      (click)="deleteHero($event, hero)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+    <mat-divider *ngIf="!last"></mat-divider>
+  </a>
+</mat-nav-list>

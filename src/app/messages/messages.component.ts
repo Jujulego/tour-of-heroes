@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { animate, style, transition, trigger, useAnimation } from '@angular/animations';
 
 import { MessageService } from '../message.service';
-import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { listItemEnter, listItemLeave } from '../animations';
 
 @Component({
   selector: 'app-messages',
@@ -10,25 +11,10 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
   animations: [
     trigger('messages', [
       transition(':increment', [
-        query(':enter', [
-          style({
-            transform: 'translateX(-100%)',
-            opacity: 0
-          }),
-          stagger(50, [
-            animate('250ms ease-out')
-          ])
-        ])
+        useAnimation(listItemEnter)
       ]),
       transition(':decrement', [
-        query(':leave', [
-          stagger(50, [
-            animate('250ms ease-in', style({
-              transform: 'translateX(100%)',
-              opacity: 0
-            }))
-          ])
-        ])
+        useAnimation(listItemLeave)
       ])
     ]),
     trigger('deleteIcon', [

@@ -14,10 +14,5 @@
     <p><em>No heroes found</em></p>
   </mat-card-content>
 
-  <mat-nav-list>
-    <a mat-list-item *ngFor="let hero of heroes$ | async; last as last" routerLink="/details/{{ hero.id }}">
-      {{ hero.name }}
-      <mat-divider *ngIf="!last"></mat-divider>
-    </a>
-  </mat-nav-list>
+  <app-hero-list [heroes]="heroes$ | async"></app-hero-list>
 </mat-card>

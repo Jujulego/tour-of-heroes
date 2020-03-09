@@ -1,0 +1,18 @@
+// Rules
+:host {
+  display: block;
+  overflow-x: hidden;
+}
+
+mat-card > :host {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+mat-nav-list {
+  .hero span {
+    flex-grow: 1;
+
+    color: inherit;
+  }
+}

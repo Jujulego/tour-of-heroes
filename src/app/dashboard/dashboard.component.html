@@ -14,13 +14,7 @@
       </mat-card-header>
 
       <app-loader-overlay *ngIf="loading"></app-loader-overlay>
-
-      <mat-nav-list>
-        <a mat-list-item *ngFor="let hero of heroes; last as last" routerLink="/details/{{ hero.id }}">
-          <span>{{ hero.name }}</span>
-          <mat-divider *ngIf="!last"></mat-divider>
-        </a>
-      </mat-nav-list>
+      <app-hero-list [heroes]="heroes"></app-hero-list>
     </mat-card>
   </div>
 

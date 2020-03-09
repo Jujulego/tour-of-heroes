@@ -20,7 +20,7 @@ $foreground: map-get($tour-of-heroes-theme, foreground);
     min-width: 300px;
     flex-grow: 2;
 
-    mat-nav-list {
+    app-hero-list {
       min-height: 104px;
     }
   }

@@ -16,14 +16,8 @@
   min-width: 300px;
   flex-grow: 3;
 
-  mat-nav-list {
+  app-hero-list {
     min-height: 104px;
-
-    .hero span {
-      flex-grow: 1;
-
-      color: inherit;
-    }
   }
 }
 
