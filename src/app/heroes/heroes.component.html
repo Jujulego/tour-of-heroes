@@ -13,9 +13,7 @@
         </button>
       </mat-card-header>
 
-      <mat-card-content *ngIf="loading" class="loading">
-        <app-loader size="30"></app-loader>
-      </mat-card-content>
+      <app-loader-overlay *ngIf="loading"></app-loader-overlay>
 
       <mat-nav-list>
         <a mat-list-item class="hero"

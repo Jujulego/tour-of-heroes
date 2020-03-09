@@ -20,12 +20,8 @@ $foreground: map-get($tour-of-heroes-theme, foreground);
     min-width: 300px;
     flex-grow: 2;
 
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      height: 80px;
+    mat-nav-list {
+      min-height: 104px;
     }
   }
 

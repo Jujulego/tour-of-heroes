@@ -16,18 +16,14 @@
   min-width: 300px;
   flex-grow: 3;
 
-  .loading {
-    height: 40px;
+  mat-nav-list {
+    min-height: 104px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .hero span {
+      flex-grow: 1;
 
-  .hero span {
-    flex-grow: 1;
-
-    color: inherit;
+      color: inherit;
+    }
   }
 }
 

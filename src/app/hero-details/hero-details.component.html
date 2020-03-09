@@ -3,18 +3,16 @@
     <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
   </mat-card-header>
 
-  <mat-card-content *ngIf="loading" class="loading">
-    <app-loader size="40"></app-loader>
-  </mat-card-content>
+  <app-loader-overlay *ngIf="loading"></app-loader-overlay>
 
-  <mat-card-content *ngIf="hero">
-    <div>
+  <mat-card-content>
+    <div *ngIf="hero">
       <mat-form-field>
         <mat-label>Id</mat-label>
         <input matInput [value]="hero.id" disabled />
       </mat-form-field>
     </div>
-    <div>
+    <div *ngIf="hero">
       <mat-form-field>
         <mat-label>Name</mat-label>
         <input matInput [(ngModel)]="hero.name" />

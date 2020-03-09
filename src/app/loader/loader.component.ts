@@ -30,6 +30,11 @@ export class LoaderComponent implements OnInit, OnDestroy {
   private forces: Simulation<Node, SimulationLinkDatum<Node>>;
   private interval: number;
 
+  // Utils
+  private static distance(node: Node): number {
+    return Math.sqrt(Math.pow(node.x - SIZE / 2, 2) + Math.pow(node.y - SIZE / 2, 2));
+  }
+
   // Lifecycle
   ngOnInit(): void {
     this.initLoader();
@@ -40,6 +45,10 @@ export class LoaderComponent implements OnInit, OnDestroy {
   }
 
   // Methods
+  nodeRadius(node: Node): number {
+    return Math.min(node.radius, LoaderComponent.distance(node) - CENTER_SIZE);
+  }
+
   private initLoader() {
     // Init simulation
     this.forces = forceSimulation<Node, SimulationLinkDatum<Node>>()
@@ -52,7 +61,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
     this.forces.on('tick', () => {
       // Remove closest parts
-      this.nodes = this.nodes.filter(node => this.distance(node) > CENTER_SIZE - node.radius);
+      this.nodes = this.nodes.filter(node => LoaderComponent.distance(node) > CENTER_SIZE - node.radius);
     });
 
     // Add nodes
@@ -65,10 +74,6 @@ export class LoaderComponent implements OnInit, OnDestroy {
   private stopLoader() {
     clearInterval(this.interval);
     this.forces.stop();
-  }
-
-  private distance(node: Node): number {
-    return Math.sqrt(Math.pow(node.x - SIZE / 2, 2) + Math.pow(node.y - SIZE / 2, 2));
   }
 
   private generateNode(): Node {
