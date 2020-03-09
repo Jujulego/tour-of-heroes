@@ -44,11 +44,4 @@ export class HeroesComponent implements OnInit {
         this.heroes.push(hero);
       });
   }
-
-  deleteHero(event: MouseEvent, hero: Hero) {
-    event.preventDefault();
-
-    this.heroes = this.heroes.filter(h => h.id !== hero.id);
-    this.heroService.deleteHero(hero).subscribe();
-  }
 }

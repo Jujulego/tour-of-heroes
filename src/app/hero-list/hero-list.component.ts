@@ -29,9 +29,16 @@ export class HeroListComponent {
   // Inputs
   @Input() canDelete = false;
   @Input() set heroes(heroes: Hero[]) {
-    this._heroes = heroes.map(hero => {
-      return this._heroes.find(h => h.id === hero.id) || hero;
-    });
+    if (!heroes) {
+      this._heroes = [];
+    } else {
+      for (let i = 0; i < heroes.length; ++i) {
+        const hero = heroes[i];
+        heroes[i] = this._heroes.find(h => h.id === hero.id) || hero;
+      }
+
+      this._heroes = heroes;
+    }
   }
 
   get heroes(): Hero [] { return this._heroes; }
@@ -44,8 +51,11 @@ export class HeroListComponent {
   // Methods
   deleteHero(event: MouseEvent, hero: Hero) {
     event.preventDefault();
+    event.stopPropagation();
 
-    this.heroes = this.heroes.filter(h => h.id !== hero.id);
+    const index = this.heroes.findIndex(h => h.id === hero.id);
+    this.heroes.splice(index, 1);
+
     this.heroService.deleteHero(hero).subscribe();
   }
 }
