@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 
 import { Simulation, SimulationLinkDatum, forceSimulation, forceRadial } from 'd3';
@@ -18,7 +18,7 @@ const STRENGTH = 0.02;
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
   // Attributes
   @Input() size: number;
 
@@ -28,10 +28,15 @@ export class LoaderComponent implements OnInit {
   private id = 1;
   private theta = 0;
   private forces: Simulation<Node, SimulationLinkDatum<Node>>;
+  private interval: number;
 
   // Lifecycle
   ngOnInit(): void {
     this.initLoader();
+  }
+
+  ngOnDestroy(): void {
+    this.stopLoader();
   }
 
   // Methods
@@ -51,10 +56,15 @@ export class LoaderComponent implements OnInit {
     });
 
     // Add nodes
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.nodes.push(this.generateNode());
       this.forces.nodes(this.nodes);
     }, 150);
+  }
+
+  private stopLoader() {
+    clearInterval(this.interval);
+    this.forces.stop();
   }
 
   private distance(node: Node): number {
