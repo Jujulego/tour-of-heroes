@@ -27,6 +27,8 @@ import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.componen
 import { HeroListComponent } from './hero-list/hero-list.component';
 
 import { environment as env } from '../environments/environment';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TestsComponent } from './tests/tests.component';
 
 @NgModule({
   declarations: [
@@ -38,30 +40,32 @@ import { environment as env } from '../environments/environment';
     HeroSearchComponent,
     LoaderComponent,
     LoaderOverlayComponent,
-    HeroListComponent
+    HeroListComponent,
+    TestsComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    AppRoutingModule,
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        AppRoutingModule,
 
-    HttpClientModule,
-    ...(env.memoryApi ? [
-      HttpClientInMemoryWebApiModule.forRoot(
-        InMemoryDataService, {dataEncapsulation: false}
-      ),
-    ] : []),
+        HttpClientModule,
+        ...(env.memoryApi ? [
+            HttpClientInMemoryWebApiModule.forRoot(
+                InMemoryDataService, {dataEncapsulation: false}
+            ),
+        ] : []),
 
-    MatCardModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatListModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule
-  ],
+        MatCardModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatListModule,
+        MatIconModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatSidenavModule,
+        MatButtonToggleModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
