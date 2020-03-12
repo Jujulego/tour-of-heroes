@@ -28,7 +28,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
   private id = 1;
   private theta = 0;
   private forces: Simulation<Node, SimulationLinkDatum<Node>>;
-  private interval: number;
+  private interval: NodeJS.Timeout;
 
   // Utils
   private static distance(node: Node): number {
