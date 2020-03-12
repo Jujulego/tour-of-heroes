@@ -6,7 +6,9 @@ import { QRCodeErrorCorrectionLevel } from 'qrcode';
 import { Square } from './square';
 
 // Types
-export type SquareStyle = 'diamond' | 'dot' | 'circle' | 'square' | 'star';
+export type SquareStyle = |
+  'circle' | 'diamond' | 'dot' | 'square' | 'star' |
+  'pointed' | 'rounded';
 
 // Utils
 function inEyeFrame(x: number, y: number, size: number): boolean {
@@ -60,6 +62,11 @@ export class QrcodeComponent implements OnInit {
     const x = square.x * this.scale;
     const y = square.y * this.scale;
 
+    const tl = !square.top && !square.left;
+    const tr = !square.top && !square.right;
+    const bl = !square.bottom && !square.left;
+    const br = !square.bottom && !square.right;
+
     switch (this.squareStyle) {
       case 'circle':
         return `M ${x + s / 2} ${y} ` +
@@ -69,15 +76,31 @@ export class QrcodeComponent implements OnInit {
 
       case 'diamond':
         return `M ${x + s / 2} ${y} ` +
-          `L ${x} ${y + s / 2} ` +
-          `L ${x + s / 2} ${y + s} ` +
-          `L ${x + s} ${y + s / 2} ` +
+          `l ${-s / 2} ${ s / 2} ` +
+          `l ${ s / 2} ${ s / 2} ` +
+          `l ${ s / 2} ${-s / 2} ` +
           `Z`;
 
       case 'dot':
         return `M ${x + s / 2} ${y + s / 4} ` +
-          `a ${s / 4} ${s / 4} 0 1 0 0 ${s / 2} ` +
+          `a ${s / 4} ${s / 4} 0 1 0 0 ${ s / 2} ` +
           `a ${s / 4} ${s / 4} 0 1 0 0 ${-s / 2} ` +
+          `Z`;
+
+      case 'pointed':
+        return `M ${x + s / 2} ${y} ` +
+          (tl ? `l ${-s / 2} ${ s / 2} ` : `h ${-s / 2} v ${ s / 2}`) +
+          (bl ? `l ${ s / 2} ${ s / 2} ` : `v ${ s / 2} h ${ s / 2}`) +
+          (br ? `l ${ s / 2} ${-s / 2} ` : `h ${ s / 2} v ${-s / 2}`) +
+          (tr ? `l ${-s / 2} ${-s / 2} ` : `v ${-s / 2} h ${-s / 2}`) +
+          `Z`;
+
+      case 'rounded':
+        return `M ${x + s / 2} ${y} ` +
+          (tl ? `a ${s / 2} ${s / 2} 0 0 0 ${-s / 2} ${ s / 2} ` : `h ${-s / 2} v ${ s / 2}`) +
+          (bl ? `a ${s / 2} ${s / 2} 0 0 0 ${ s / 2} ${ s / 2} ` : `v ${ s / 2} h ${ s / 2}`) +
+          (br ? `a ${s / 2} ${s / 2} 0 0 0 ${ s / 2} ${-s / 2} ` : `h ${ s / 2} v ${-s / 2}`) +
+          (tr ? `a ${s / 2} ${s / 2} 0 0 0 ${-s / 2} ${-s / 2} ` : `v ${-s / 2} h ${-s / 2}`) +
           `Z`;
 
       case 'star':
@@ -91,9 +114,9 @@ export class QrcodeComponent implements OnInit {
       case 'square':
       default:
         return `M ${x} ${y} ` +
-          `L ${x} ${y + s} ` +
-          `L ${x + s} ${y + s} ` +
-          `L ${x + s} ${y} ` +
+          `v ${ s} ` +
+          `h ${ s} ` +
+          `v ${-s} ` +
           `Z`;
     }
   }
@@ -118,7 +141,13 @@ export class QrcodeComponent implements OnInit {
         if (inEyeFrame(x, y, size)) { continue; }
 
         if (data[x * size + y]) {
-          squares.push({ x, y });
+          squares.push({
+            x, y,
+            top: (y > 0) && !!data[x * size + (y - 1)],
+            left: (x > 0) && !!data[(x - 1) * size + y],
+            right: (x < size - 1) && !!data[(x + 1) * size + y],
+            bottom: (y < size - 1) && !!data[x * size + (y + 1)],
+          });
         }
       }
     }
