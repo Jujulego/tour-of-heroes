@@ -1,10 +1,8 @@
 <svg [attr.width]="width" [attr.height]="width" [attr.viewBox]="viewBox">
-  <g>
-    <rect class="square"
+  <g class="squares">
+    <path
       *ngFor="let square of squares"
-      [attr.width]="scale" [attr.height]="scale"
-      [attr.x]="square.x * scale"
-      [attr.y]="square.y * scale"
+      [attr.d]="squarePath(square)"
     />
   </g>
   <g>
