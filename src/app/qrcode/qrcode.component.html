@@ -1,0 +1,59 @@
+<svg [attr.width]="width" [attr.height]="width" [attr.viewBox]="viewBox">
+  <g>
+    <rect class="square"
+      *ngFor="let square of squares"
+      [attr.width]="scale" [attr.height]="scale"
+      [attr.x]="square.x * scale"
+      [attr.y]="square.y * scale"
+    />
+  </g>
+  <g>
+    <!-- top left eye -->
+    <rect class="eye"
+      [attr.width]="6 * scale" [attr.height]="6 * scale"
+      [attr.x]="0.5 * scale"
+      [attr.y]="0.5 * scale"
+      [attr.stroke-width]="scale"
+    />
+    <rect class="eye-internal"
+      [attr.width]="3 * scale" [attr.height]="3 * scale"
+      [attr.x]="2 * scale"
+      [attr.y]="2 * scale"
+    />
+
+    <!-- bottom left eye -->
+    <rect class="eye"
+      [attr.width]="6 * scale" [attr.height]="6 * scale"
+      [attr.x]="0.5 * scale"
+      [attr.y]="(size - 6.5) * scale"
+      [attr.stroke-width]="scale"
+    />
+    <rect class="eye-internal"
+      [attr.width]="3 * scale" [attr.height]="3 * scale"
+      [attr.x]="2 * scale"
+      [attr.y]="(size - 5) * scale"
+    />
+
+    <!-- top right eye -->
+    <rect class="eye"
+      [attr.width]="6 * scale" [attr.height]="6 * scale"
+      [attr.x]="(size - 6.5) * scale"
+      [attr.y]="0.5 * scale"
+      [attr.stroke-width]="scale"
+    />
+    <rect class="eye-internal"
+      [attr.width]="3 * scale" [attr.height]="3 * scale"
+      [attr.x]="(size - 5) * scale"
+      [attr.y]="2 * scale"
+    />
+  </g>
+  <g class="image" *ngIf="image">
+    <image
+      [attr.xlink:href]="image"
+      [attr.width]="imageBBox.width"
+      [attr.height]="imageBBox.height"
+      [attr.x]="imageBBox.x"
+      [attr.y]="imageBBox.y"
+    />
+  </g>
+</svg>

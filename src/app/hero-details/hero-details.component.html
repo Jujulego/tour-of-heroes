@@ -1,39 +1,57 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
-  </mat-card-header>
+<div class="grid">
+  <div class="data">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
+      </mat-card-header>
 
-  <app-loader-overlay *ngIf="loading"></app-loader-overlay>
+      <app-loader-overlay *ngIf="loading"></app-loader-overlay>
 
-  <mat-card-content>
-    <div *ngIf="hero">
-      <mat-form-field>
-        <mat-label>Id</mat-label>
-        <input matInput [value]="hero.id" disabled />
-      </mat-form-field>
-    </div>
-    <div *ngIf="hero">
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="hero.name" />
-      </mat-form-field>
-    </div>
-  </mat-card-content>
+      <mat-card-content>
+        <div *ngIf="hero">
+          <mat-form-field>
+            <mat-label>Id</mat-label>
+            <input matInput [value]="hero.id" disabled />
+          </mat-form-field>
+        </div>
+        <div *ngIf="hero">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="hero.name" />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
 
-  <mat-card-actions align="end">
-    <button
-      mat-button color="warn"
-      [disabled]="loading"
-      (click)="delete()"
-    >
-      DELETE
-    </button>
-    <button
-      mat-button color="primary"
-      [disabled]="loading"
-      (click)="save()"
-    >
-      SAVE
-    </button>
-  </mat-card-actions>
-</mat-card>
+      <mat-card-actions align="end">
+        <button
+          mat-button color="warn"
+          [disabled]="loading"
+          (click)="delete()"
+        >
+          DELETE
+        </button>
+        <button
+          mat-button color="primary"
+          [disabled]="loading"
+          (click)="save()"
+        >
+          SAVE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="grow"></div>
+
+  <div class="qr">
+    <mat-card *ngIf="hero">
+      <mat-card-content>
+        <app-qrcode
+          [data]="hero.name"
+          width="300"
+          image="assets/marvel.svg"
+        ></app-qrcode>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

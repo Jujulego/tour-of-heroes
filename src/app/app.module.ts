@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
@@ -25,10 +26,10 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
+import { TestsComponent } from './tests/tests.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { TestsComponent } from './tests/tests.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { TestsComponent } from './tests/tests.component';
     LoaderComponent,
     LoaderOverlayComponent,
     HeroListComponent,
-    TestsComponent
+    TestsComponent,
+    QrcodeComponent
   ],
     imports: [
         BrowserModule,
