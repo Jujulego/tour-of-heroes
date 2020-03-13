@@ -8,7 +8,21 @@ import { Square } from './square';
 // Types
 export type SquareStyle = |
   'circle' | 'diamond' | 'dot' | 'square' | 'star' |
-  'pointed' | 'rounded';
+  'pointed' | 'round';
+
+export type EyeStyle = |
+  'circle' | 'pointed' | 'round' | 'square';
+
+type Color = string;
+
+type GradientType = 'linear-x' | 'linear-y' | 'radial';
+interface Gradient {
+  type: GradientType;
+  from: Color;
+  to: Color;
+}
+
+export type QRColor = Color | Gradient;
 
 // Utils
 function inEyeFrame(x: number, y: number, size: number): boolean {
@@ -26,7 +40,10 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   @Input() data: string;
   @Input() width: string;
   @Input() icon: string;
-  @Input() squareStyle: SquareStyle = 'diamond';
+  @Input() light: Color = 'white';
+  @Input() dark: QRColor = 'black';
+  @Input() eyeStyle: EyeStyle = 'pointed';
+  @Input() squareStyle: SquareStyle = 'pointed';
 
   @Input() version: string;
   @Input() correction: QRCodeErrorCorrectionLevel;
@@ -64,6 +81,123 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   }
 
   // Methods
+  private buildDark() {
+    if (typeof this.dark === 'string') {
+      return this.dark;
+    }
+
+    // Compute gradient
+    const w = parseInt(this.width, 10);
+    let grad: CanvasGradient;
+
+    switch (this.dark.type) {
+      case 'radial':
+        grad = this.ctx.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2 * Math.sqrt(2));
+        break;
+
+      case 'linear-x':
+        grad = this.ctx.createLinearGradient(0, 0, w, 0);
+        break;
+
+      case 'linear-y':
+      default:
+        grad = this.ctx.createLinearGradient(0, 0, 0, w);
+    }
+
+    grad.addColorStop(0, this.dark.from);
+    grad.addColorStop(1, this.dark.to);
+
+    return grad;
+  }
+
+  private framePath(x: number, y: number): string {
+    const s = this.scale;
+    x *= this.scale;
+    y *= this.scale;
+
+    switch (this.eyeStyle) {
+      case 'circle':
+        return `M ${x + s * 3.5} ${y + s * .5} ` +
+          `a ${s * 3} ${s * 3} 0 1 0 0 ${ s * 6} ` +
+          `a ${s * 3} ${s * 3} 0 1 0 0 ${-s * 6} ` +
+          `Z`;
+
+      case 'pointed':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          `l ${-s * 1.5} ${ s * 1.5} ` +
+          `v ${ s * 3} ` +
+          `l ${ s * 1.5} ${ s * 1.5} ` +
+          `h ${ s * 3} ` +
+          `l ${ s * 1.5} ${-s * 1.5} ` +
+          `v ${-s * 3} ` +
+          `l ${-s * 1.5} ${-s * 1.5} ` +
+          `Z`;
+
+      case 'round':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} ` +
+          `v ${ s * 3} ` +
+          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} ` +
+          `h ${ s * 3} ` +
+          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} ` +
+          `v ${-s * 3} ` +
+          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} ` +
+          `Z`;
+
+      case 'square':
+      default:
+        return `M ${x + s * .5} ${y + s * .5} ` +
+          `v ${ s * 6} ` +
+          `h ${ s * 6} ` +
+          `v ${-s * 6} ` +
+          `Z`;
+    }
+  }
+
+  private ballPath(x: number, y: number): string {
+    const s = this.scale;
+    x *= this.scale;
+    y *= this.scale;
+
+    switch (this.eyeStyle) {
+      case 'circle':
+        return `M ${x + s * 3.5} ${y + s * 2} ` +
+          `a ${s * 1.5} ${s * 1.5} 0 1 0 0 ${ s * 3} ` +
+          `a ${s * 1.5} ${s * 1.5} 0 1 0 0 ${-s * 3} ` +
+          `Z`;
+
+      case 'pointed':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          `l ${-s} ${ s} ` +
+          `v ${ s} ` +
+          `l ${ s} ${ s} ` +
+          `h ${ s} ` +
+          `l ${ s} ${-s} ` +
+          `v ${-s} ` +
+          `l ${-s} ${-s} ` +
+          `Z`;
+
+      case 'round':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          `a ${ s} ${s} 0 0 0 ${-s} ${ s} ` +
+          `v ${ s} ` +
+          `a ${ s} ${s} 0 0 0 ${ s} ${ s} ` +
+          `h ${ s} ` +
+          `a ${ s} ${s} 0 0 0 ${ s} ${-s} ` +
+          `v ${-s} ` +
+          `a ${ s} ${s} 0 0 0 ${-s} ${-s} ` +
+          `Z`;
+
+      case 'square':
+      default:
+        return `M ${x + s * 2} ${y + s * 2} ` +
+          `v ${ s * 3} ` +
+          `h ${ s * 3} ` +
+          `v ${-s * 3} ` +
+          `Z`;
+    }
+  }
+
   private squarePath(square: Square): string {
     const s = this.scale;
     const x = square.x * this.scale;
@@ -102,7 +236,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           (tr ? `l ${-s / 2} ${-s / 2} ` : `v ${-s / 2} h ${-s / 2}`) +
           `Z`;
 
-      case 'rounded':
+      case 'round':
         return `M ${x + s / 2} ${y} ` +
           (tl ? `a ${s / 2} ${s / 2} 0 0 0 ${-s / 2} ${ s / 2} ` : `h ${-s / 2} v ${ s / 2}`) +
           (bl ? `a ${s / 2} ${s / 2} 0 0 0 ${ s / 2} ${ s / 2} ` : `v ${ s / 2} h ${ s / 2}`) +
@@ -177,28 +311,31 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     // Clear canvas
     this.ctx.clearRect(0, 0, width, width);
 
-    this.ctx.fillStyle = 'white';
+    this.ctx.fillStyle = this.light;
     this.ctx.fillRect(0, 0, width, width);
 
+    // Style
+    const dark = this.buildDark();
+
     // Draw eyes
-    this.ctx.fillStyle = 'black';
-    this.ctx.strokeStyle = 'black';
+    this.ctx.fillStyle = dark;
+    this.ctx.strokeStyle = dark;
     this.ctx.lineWidth = s;
 
     // - top left
-    this.ctx.strokeRect(0.5 * s, 0.5 * s, 6 * s, 6 * s);
-    this.ctx.fillRect(2 * s, 2 * s, 3 * s, 3 * s);
+    this.ctx.stroke(new Path2D(this.framePath(0, 0)));
+    this.ctx.fill(new Path2D(this.ballPath(0, 0)));
 
     // - bottom left
-    this.ctx.strokeRect(0.5 * s, (size - 6.5) * s, 6 * s, 6 * s);
-    this.ctx.fillRect(2 * s, (size - 5) * s, 3 * s, 3 * s);
+    this.ctx.stroke(new Path2D(this.framePath(0, size - 7)));
+    this.ctx.fill(new Path2D(this.ballPath(0, size - 7)));
 
     // - top right
-    this.ctx.strokeRect((size - 6.5) * s, 0.5 * s, 6 * s, 6 * s);
-    this.ctx.fillRect((size - 5) * s, 2 * s, 3 * s, 3 * s);
+    this.ctx.stroke(new Path2D(this.framePath(size - 7, 0)));
+    this.ctx.fill(new Path2D(this.ballPath(size - 7, 0)));
 
     // Draw squares
-    this.ctx.fillStyle = 'black';
+    this.ctx.fillStyle = dark;
 
     this.squares.forEach(square => {
       this.ctx.fill(new Path2D(this.squarePath(square)));
