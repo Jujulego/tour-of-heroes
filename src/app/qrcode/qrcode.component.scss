@@ -1,23 +1,4 @@
-@import "src/styles";
-
 // Rules
 :host {
   display: block;
-}
-
-svg {
-  background-color: white;
-
-  .squares {
-    fill: black;
-  }
-
-  .eye {
-    fill: white;
-    stroke: black;
-  }
-
-  .image {
-    fill: white;
-  }
 }

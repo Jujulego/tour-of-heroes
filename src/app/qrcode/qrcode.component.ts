@@ -26,6 +26,8 @@ interface Gradient {
 
 export type QRColor = Color | Gradient;
 
+export type DownloadType = 'png';
+
 // Utils
 function inEyeFrame(x: number, y: number, size: number): boolean {
   return (x < 8 && y < 8) || (x < 8 && y >= size - 8) || (x >= size - 8 && y < 8);
@@ -406,11 +408,6 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     if (this.img) {
       this.ctx.fillStyle = this.background;
 
-      this.ctx.fillRect(
-        this.imageBBox.x, this.imageBBox.y,
-        this.imageBBox.width, this.imageBBox.height
-      );
-
       this.ctx.drawImage(this.img,
         this.imageBBox.x, this.imageBBox.y,
         this.imageBBox.width, this.imageBBox.height
@@ -434,5 +431,14 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     };
 
     this.img.src = this.icon;
+  }
+
+  downloadHref(type: DownloadType): string {
+    if (!this.canvas || !this.data) {
+      return '';
+    }
+
+    // Create png data
+    return this.canvas.nativeElement.toDataURL('image/png');
   }
 }

@@ -46,13 +46,13 @@ mat-card > mat-list, mat-card > mat-nav-list {
 }
 
 // Links
-a {
+a:not([mat-button]) {
   color: mat-color($tour-of-heroes-primary, default);
   text-decoration: none;
-}
 
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 // Buttons

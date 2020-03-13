@@ -105,9 +105,8 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="col-auto">
-          <app-qrcode
-            *ngIf="hero"
+        <div class="col-auto" *ngIf="hero">
+          <app-qrcode #qrcode
             [data]="hero.name"
             width="300"
             icon="/assets/marvel.png"
@@ -116,6 +115,7 @@
             [eyeStyle]="eyeStyle.value"
             [squareStyle]="squareStyle.value"
           ></app-qrcode>
+          <a mat-button download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
         </div>
       </mat-card-content>
     </mat-card>
