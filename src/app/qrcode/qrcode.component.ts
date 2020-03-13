@@ -60,6 +60,7 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
   private scale = 100;
   private squares: Square[] = [];
 
+  private img?: HTMLImageElement;
   private ctx: CanvasRenderingContext2D;
 
   get imageBBox() {
@@ -80,9 +81,13 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.icon) {
+      this.loadIcon();
+    }
+
     if (changes.data || changes.version || changes.correction) {
       this.generate();
-    } else if (changes.width || changes.icon || changes.background || changes.foreground || changes.eyeStyle || changes.squareStyle) {
+    } else if (changes.width || changes.background || changes.foreground || changes.eyeStyle || changes.squareStyle) {
       this.draw();
     }
   }
@@ -354,7 +359,6 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
   }
 
   private draw() {
-    console.log('draw');
     // Measures
     const width = parseInt(this.width, 10);
     const size = this.size;
@@ -399,20 +403,32 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     });
 
     // Add icon
-    if (this.icon) {
-      const img = new Image();
+    if (this.img) {
+      this.ctx.fillStyle = 'black';
+      this.ctx.strokeStyle = 'black';
 
-      img.onload = () => {
-        this.ctx.fillStyle = 'black';
-        this.ctx.strokeStyle = 'black';
-
-        this.ctx.drawImage(img,
-          this.imageBBox.x, this.imageBBox.y,
-          this.imageBBox.width, this.imageBBox.height
-        );
-      };
-
-      img.src = this.icon;
+      this.ctx.drawImage(this.img,
+        this.imageBBox.x, this.imageBBox.y,
+        this.imageBBox.width, this.imageBBox.height
+      );
     }
+  }
+
+  private loadIcon() {
+    if (!this.icon) {
+      this.img = undefined;
+      return;
+    }
+
+    // Load image
+    this.img = new Image();
+
+    this.img.onload = () => {
+      if (this.ctx) {
+        this.draw();
+      }
+    };
+
+    this.img.src = this.icon;
   }
 }
