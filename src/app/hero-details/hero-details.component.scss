@@ -8,6 +8,14 @@
 
   margin: -8px;
 
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
   > * {
     margin: 8px;
   }
@@ -31,5 +39,17 @@
 
   .qr {
     flex-shrink: 0;
+  }
+
+  .foreground-type {
+    mat-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    mat-radio-button {
+      margin-right: 16px;
+      margin-bottom: 16px;
+    }
   }
 }

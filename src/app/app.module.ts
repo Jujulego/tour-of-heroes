@@ -30,6 +30,8 @@ import { TestsComponent } from './tests/tests.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -45,29 +47,31 @@ import { environment as env } from '../environments/environment';
     TestsComponent,
     QrcodeComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        AppRoutingModule,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    AppRoutingModule,
 
-        HttpClientModule,
-        ...(env.memoryApi ? [
-            HttpClientInMemoryWebApiModule.forRoot(
-                InMemoryDataService, {dataEncapsulation: false}
-            ),
-        ] : []),
+    HttpClientModule,
+    ...(env.memoryApi ? [
+      HttpClientInMemoryWebApiModule.forRoot(
+        InMemoryDataService, {dataEncapsulation: false}
+      ),
+    ] : []),
 
-        MatCardModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatListModule,
-        MatIconModule,
-        MatInputModule,
-        MatProgressSpinnerModule,
-        MatSidenavModule,
-        MatButtonToggleModule
-    ],
+    MatCardModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatRadioModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,7 @@ import { AppBarService } from '../app-bar.service';
 import { HeroService } from '../hero.service';
 
 import { Hero } from '../hero';
+import { GradientType, QRColor } from '../qrcode/qrcode.component';
 
 @Component({
   selector: 'app-hero-details',
@@ -17,6 +18,11 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   id: string;
   hero: Hero;
   loading = false;
+
+  foregroundType: GradientType = 'plain';
+  foregroundFrom = '#1A237E';
+  foregroundTo = '#42A5F5';
+  background = '#C5CAE9';
 
   // Constructor
   constructor(

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ElementRef, Input, ViewChild } from '@angular/core';
 
 import * as qrcode from 'qrcode';
@@ -17,7 +17,7 @@ export type EyeStyle = |
 
 type Color = string;
 
-type GradientType = 'linear-x' | 'linear-y' | 'radial';
+export type GradientType = 'plain' | 'linear-x' | 'linear-y' | 'radial';
 interface Gradient {
   type: GradientType;
   from: Color;
@@ -37,18 +37,19 @@ function inEyeFrame(x: number, y: number, size: number): boolean {
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']
 })
-export class QrcodeComponent implements OnInit, AfterViewInit {
+export class QrcodeComponent implements AfterViewInit, OnChanges {
   // Inputs
   @Input() data: string;
-  @Input() width: string;
-  @Input() icon: string;
-  @Input() light: Color = 'white';
-  @Input() dark: QRColor = 'black';
-  @Input() eyeStyle: EyeStyle = 'round-ext';
-  @Input() squareStyle: SquareStyle = 'round';
-
   @Input() version: string;
   @Input() correction: QRCodeErrorCorrectionLevel;
+
+  @Input() width: string;
+  @Input() icon: string;
+
+  @Input() background: Color = 'white';
+  @Input() foreground: QRColor = 'black';
+  @Input() eyeStyle: EyeStyle;
+  @Input() squareStyle: SquareStyle;
 
   // Childs
   @ViewChild('canvas', { static: true })
@@ -73,28 +74,32 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   }
 
   // Lifecycle
-  ngOnInit(): void {
-    this.generate();
-  }
-
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.draw();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data || changes.version || changes.correction) {
+      this.generate();
+    } else if (changes.width || changes.icon || changes.background || changes.foreground || changes.eyeStyle || changes.squareStyle) {
+      this.draw();
+    }
+  }
+
   // Methods
-  private buildDark() {
-    if (typeof this.dark === 'string') {
-      return this.dark;
+  private buildForeground() {
+    if (typeof this.foreground === 'string') {
+      return this.foreground;
     }
 
     // Compute gradient
     const w = parseInt(this.width, 10);
     let grad: CanvasGradient;
 
-    switch (this.dark.type) {
+    switch (this.foreground.type) {
       case 'radial':
-        grad = this.ctx.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2 * Math.sqrt(2));
+        grad = this.ctx.createRadialGradient(w / 2, w / 2, w / 2 * Math.sqrt(2), w / 2, w / 2, 0);
         break;
 
       case 'linear-x':
@@ -102,12 +107,16 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
         break;
 
       case 'linear-y':
-      default:
         grad = this.ctx.createLinearGradient(0, 0, 0, w);
+        break;
+
+      case 'plain':
+      default:
+        return this.foreground.from;
     }
 
-    grad.addColorStop(0, this.dark.from);
-    grad.addColorStop(1, this.dark.to);
+    grad.addColorStop(0, this.foreground.from);
+    grad.addColorStop(1, this.foreground.to);
 
     return grad;
   }
@@ -299,9 +308,15 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   }
 
   private generate() {
-    const version = parseInt(this.version, 10) || 0;
+    // If no data ...
+    if (!this.data) {
+      this.draw();
+      return;
+    }
 
     // Generate QR code
+    const version = parseInt(this.version, 10) || 0;
+
     const code = qrcode.create(this.data,
       {
         version: Math.max(version, 4),
@@ -339,6 +354,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   }
 
   private draw() {
+    console.log('draw');
     // Measures
     const width = parseInt(this.width, 10);
     const size = this.size;
@@ -347,15 +363,15 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     // Clear canvas
     this.ctx.clearRect(0, 0, width, width);
 
-    this.ctx.fillStyle = this.light;
+    this.ctx.fillStyle = this.background;
     this.ctx.fillRect(0, 0, width, width);
 
     // Style
-    const dark = this.buildDark();
+    const foreground = this.buildForeground();
 
     // Draw eyes
-    this.ctx.fillStyle = dark;
-    this.ctx.strokeStyle = dark;
+    this.ctx.fillStyle = foreground;
+    this.ctx.strokeStyle = foreground;
     this.ctx.lineWidth = s;
 
     // - top left
@@ -370,8 +386,13 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     this.ctx.stroke(new Path2D(this.framePath(size - 7, 0)));
     this.ctx.fill(new Path2D(this.ballPath(size - 7, 0)));
 
+    // No data => no squares
+    if (!this.data) {
+      return;
+    }
+
     // Draw squares
-    this.ctx.fillStyle = dark;
+    this.ctx.fillStyle = foreground;
 
     this.squares.forEach(square => {
       this.ctx.fill(new Path2D(this.squarePath(square)));
@@ -382,7 +403,9 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
       const img = new Image();
 
       img.onload = () => {
-        console.log('image ! ', this.ctx, this.imageBBox);
+        this.ctx.fillStyle = 'black';
+        this.ctx.strokeStyle = 'black';
+
         this.ctx.drawImage(img,
           this.imageBBox.x, this.imageBBox.y,
           this.imageBBox.width, this.imageBBox.height
