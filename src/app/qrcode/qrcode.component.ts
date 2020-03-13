@@ -8,10 +8,12 @@ import { Square } from './square';
 // Types
 export type SquareStyle = |
   'circle' | 'diamond' | 'dot' | 'square' | 'star' |
-  'pointed' | 'round';
+  'edge' | 'round';
 
 export type EyeStyle = |
-  'circle' | 'pointed' | 'round' | 'square';
+  'circle' | 'square' |
+  'edge' | 'edge-int' | 'edge-ext' | 'edge-side' |
+  'round' | 'round-int' | 'round-ext' | 'round-side';
 
 type Color = string;
 
@@ -42,8 +44,8 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   @Input() icon: string;
   @Input() light: Color = 'white';
   @Input() dark: QRColor = 'black';
-  @Input() eyeStyle: EyeStyle = 'pointed';
-  @Input() squareStyle: SquareStyle = 'pointed';
+  @Input() eyeStyle: EyeStyle = 'round-int';
+  @Input() squareStyle: SquareStyle = 'round';
 
   @Input() version: string;
   @Input() correction: QRCodeErrorCorrectionLevel;
@@ -115,6 +117,10 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     x *= this.scale;
     y *= this.scale;
 
+    const tl = x === 0 && y === 0;
+    const bl = !tl && x === 0;
+    const tr = !tl && y === 0;
+
     switch (this.eyeStyle) {
       case 'circle':
         return `M ${x + s * 3.5} ${y + s * .5} ` +
@@ -122,7 +128,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `a ${s * 3} ${s * 3} 0 1 0 0 ${-s * 6} ` +
           `Z`;
 
-      case 'pointed':
+      case 'edge':
         return `M ${x + s * 2} ${y + s * .5} ` +
           `l ${-s * 1.5} ${ s * 1.5} ` +
           `v ${ s * 3} ` +
@@ -131,6 +137,38 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `l ${ s * 1.5} ${-s * 1.5} ` +
           `v ${-s * 3} ` +
           `l ${-s * 1.5} ${-s * 1.5} ` +
+          `Z`;
+
+      case 'edge-int':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 3} ` +
+                                                 `l ${ s * 1.5} ${-s * 1.5} ` +
+          `v ${-s * 3} ` +
+          (tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
+          `Z`;
+
+      case 'edge-side':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (tl       ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (bl || tr ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 3} ` +
+          (      tl ? `h ${ s * 1.5} v ${-s * 1.5} ` : `l ${ s * 1.5} ${-s * 1.5} `) +
+          `v ${-s * 3} ` +
+          (tr || bl ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
+          `Z`;
+
+      case 'edge-ext':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (!tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (!bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 4.5} ` +
+          `v ${-s * 4.5} ` +
+          (!tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
           `Z`;
 
       case 'round':
@@ -142,6 +180,38 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} ` +
           `v ${-s * 3} ` +
           `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} ` +
+          `Z`;
+
+      case 'round-int':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 3} ` +
+                                                 `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} ` +
+          `v ${-s * 3} ` +
+          (tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
+          `Z`;
+
+      case 'round-side':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (tl       ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (bl || tr ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 3} ` +
+          (      tl ? `h ${ s * 1.5} v ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} `) +
+          `v ${-s * 3} ` +
+          (tr || bl ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
+          `Z`;
+
+      case 'round-ext':
+        return `M ${x + s * 2} ${y + s * .5} ` +
+          (!tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
+          `v ${ s * 3} ` +
+          (!bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
+          `h ${ s * 4.5} ` +
+          `v ${-s * 4.5} ` +
+          (!tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
           `Z`;
 
       case 'square':
@@ -159,6 +229,10 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     x *= this.scale;
     y *= this.scale;
 
+    const tl = x === 0 && y === 0;
+    const bl = !tl && x === 0;
+    const tr = !tl && y === 0;
+
     switch (this.eyeStyle) {
       case 'circle':
         return `M ${x + s * 3.5} ${y + s * 2} ` +
@@ -166,7 +240,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `a ${s * 1.5} ${s * 1.5} 0 1 0 0 ${-s * 3} ` +
           `Z`;
 
-      case 'pointed':
+      case 'edge':
         return `M ${x + s * 3} ${y + s * 2} ` +
           `l ${-s} ${ s} ` +
           `v ${ s} ` +
@@ -175,6 +249,38 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `l ${ s} ${-s} ` +
           `v ${-s} ` +
           `l ${-s} ${-s} ` +
+          `Z`;
+
+      case 'edge-int':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (tl ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (bl ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
+          `h ${ s} ` +
+                                     `l ${ s} ${-s} ` +
+          `v ${-s} ` +
+          (tr ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
+          `Z`;
+
+      case 'edge-side':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (tl       ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (bl || tr ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
+          `h ${ s} ` +
+          (tl       ? `h ${ s} v ${-s} ` : `l ${ s} ${-s} `) +
+          `v ${-s} ` +
+          (tr || bl ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
+          `Z`;
+
+      case 'edge-ext':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (!tl ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (!bl ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
+          `h ${ s * 2} ` +
+          `v ${-s * 2} ` +
+          (!tr ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
           `Z`;
 
       case 'round':
@@ -186,6 +292,38 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `a ${ s} ${s} 0 0 0 ${ s} ${-s} ` +
           `v ${-s} ` +
           `a ${ s} ${s} 0 0 0 ${-s} ${-s} ` +
+          `Z`;
+
+      case 'round-int':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (tl ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (bl ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
+          `h ${ s} ` +
+                                     `a ${ s} ${s} 0 0 0 ${ s} ${-s} ` +
+          `v ${-s} ` +
+          (tr ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
+          `Z`;
+
+      case 'round-side':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (tl       ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (bl || tr ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
+          `h ${ s} ` +
+          (      tl ? `h ${ s} v ${-s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${-s} `) +
+          `v ${-s} ` +
+          (tr || bl ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
+          `Z`;
+
+      case 'round-ext':
+        return `M ${x + s * 3} ${y + s * 2} ` +
+          (!tl ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
+          `v ${ s} ` +
+          (!bl ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
+          `h ${ s * 2} ` +
+          `v ${-s * 2} ` +
+          (!tr ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
           `Z`;
 
       case 'square':
@@ -228,7 +366,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `a ${s / 4} ${s / 4} 0 1 0 0 ${-s / 2} ` +
           `Z`;
 
-      case 'pointed':
+      case 'edge':
         return `M ${x + s / 2} ${y} ` +
           (tl ? `l ${-s / 2} ${ s / 2} ` : `h ${-s / 2} v ${ s / 2}`) +
           (bl ? `l ${ s / 2} ${ s / 2} ` : `v ${ s / 2} h ${ s / 2}`) +
