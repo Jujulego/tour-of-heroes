@@ -44,7 +44,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
   @Input() icon: string;
   @Input() light: Color = 'white';
   @Input() dark: QRColor = 'black';
-  @Input() eyeStyle: EyeStyle = 'round-int';
+  @Input() eyeStyle: EyeStyle = 'round-ext';
   @Input() squareStyle: SquareStyle = 'round';
 
   @Input() version: string;
@@ -112,14 +112,30 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     return grad;
   }
 
+  private eyeAngles(x: number, y: number) {
+    const mode = /^[a-z]+-([a-z]+)$/i.test(this.eyeStyle) ? RegExp.$1 : '';
+    if (mode === '') {
+      return { tl: false, bl: false, br: false, tr: false };
+    }
+
+    const tl = x === 0 && y === 0;
+    const bl = !tl && x === 0;
+    const tr = !tl && y === 0;
+
+    return {
+      tl: (mode === 'ext') ? !tl : tl,
+      bl: (mode === 'ext') ? !bl : (bl || (mode === 'side' && tr)),
+      br: (mode === 'ext') || ((mode === 'side') && tl),
+      tr: (mode === 'ext') ? !tr : (tr || (mode === 'side' && bl)),
+    };
+  }
+
   private framePath(x: number, y: number): string {
     const s = this.scale;
     x *= this.scale;
     y *= this.scale;
 
-    const tl = x === 0 && y === 0;
-    const bl = !tl && x === 0;
-    const tr = !tl && y === 0;
+    const { tl, bl, br, tr } = this.eyeAngles(x, y);
 
     switch (this.eyeStyle) {
       case 'circle':
@@ -129,89 +145,31 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `Z`;
 
       case 'edge':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          `l ${-s * 1.5} ${ s * 1.5} ` +
-          `v ${ s * 3} ` +
-          `l ${ s * 1.5} ${ s * 1.5} ` +
-          `h ${ s * 3} ` +
-          `l ${ s * 1.5} ${-s * 1.5} ` +
-          `v ${-s * 3} ` +
-          `l ${-s * 1.5} ${-s * 1.5} ` +
-          `Z`;
-
       case 'edge-int':
+      case 'edge-side':
+      case 'edge-ext':
         return `M ${x + s * 2} ${y + s * .5} ` +
           (tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
           `v ${ s * 3} ` +
           (bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
           `h ${ s * 3} ` +
-                                                 `l ${ s * 1.5} ${-s * 1.5} ` +
+          (br ? `h ${ s * 1.5} v ${-s * 1.5} ` : `l ${ s * 1.5} ${-s * 1.5} `) +
           `v ${-s * 3} ` +
           (tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
           `Z`;
 
-      case 'edge-side':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          (tl       ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
-          `v ${ s * 3} ` +
-          (bl || tr ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
-          `h ${ s * 3} ` +
-          (      tl ? `h ${ s * 1.5} v ${-s * 1.5} ` : `l ${ s * 1.5} ${-s * 1.5} `) +
-          `v ${-s * 3} ` +
-          (tr || bl ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
-          `Z`;
-
-      case 'edge-ext':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          (!tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `l ${-s * 1.5} ${ s * 1.5} `) +
-          `v ${ s * 3} ` +
-          (!bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `l ${ s * 1.5} ${ s * 1.5} `) +
-          `h ${ s * 4.5} ` +
-          `v ${-s * 4.5} ` +
-          (!tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `l ${-s * 1.5} ${-s * 1.5} `) +
-          `Z`;
-
       case 'round':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} ` +
-          `v ${ s * 3} ` +
-          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} ` +
-          `h ${ s * 3} ` +
-          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} ` +
-          `v ${-s * 3} ` +
-          `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} ` +
-          `Z`;
-
       case 'round-int':
+      case 'round-side':
+      case 'round-ext':
         return `M ${x + s * 2} ${y + s * .5} ` +
           (tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
           `v ${ s * 3} ` +
           (bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
           `h ${ s * 3} ` +
-                                                 `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} ` +
+          (br ? `h ${ s * 1.5} v ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} `) +
           `v ${-s * 3} ` +
           (tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
-          `Z`;
-
-      case 'round-side':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          (tl       ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
-          `v ${ s * 3} ` +
-          (bl || tr ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
-          `h ${ s * 3} ` +
-          (      tl ? `h ${ s * 1.5} v ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${-s * 1.5} `) +
-          `v ${-s * 3} ` +
-          (tr || bl ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
-          `Z`;
-
-      case 'round-ext':
-        return `M ${x + s * 2} ${y + s * .5} ` +
-          (!tl ? `h ${-s * 1.5} v ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${ s * 1.5} `) +
-          `v ${ s * 3} ` +
-          (!bl ? `v ${ s * 1.5} h ${ s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${ s * 1.5} ${ s * 1.5} `) +
-          `h ${ s * 4.5} ` +
-          `v ${-s * 4.5} ` +
-          (!tr ? `v ${-s * 1.5} h ${-s * 1.5} ` : `a ${ s * 1.5} ${s * 1.5} 0 0 0 ${-s * 1.5} ${-s * 1.5} `) +
           `Z`;
 
       case 'square':
@@ -229,9 +187,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
     x *= this.scale;
     y *= this.scale;
 
-    const tl = x === 0 && y === 0;
-    const bl = !tl && x === 0;
-    const tr = !tl && y === 0;
+    const { tl, bl, br, tr } = this.eyeAngles(x, y);
 
     switch (this.eyeStyle) {
       case 'circle':
@@ -241,89 +197,31 @@ export class QrcodeComponent implements OnInit, AfterViewInit {
           `Z`;
 
       case 'edge':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          `l ${-s} ${ s} ` +
-          `v ${ s} ` +
-          `l ${ s} ${ s} ` +
-          `h ${ s} ` +
-          `l ${ s} ${-s} ` +
-          `v ${-s} ` +
-          `l ${-s} ${-s} ` +
-          `Z`;
-
       case 'edge-int':
+      case 'edge-side':
+      case 'edge-ext':
         return `M ${x + s * 3} ${y + s * 2} ` +
           (tl ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
           `v ${ s} ` +
           (bl ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
           `h ${ s} ` +
-                                     `l ${ s} ${-s} ` +
+          (br ? `h ${ s} v ${-s} ` : `l ${ s} ${-s} `) +
           `v ${-s} ` +
           (tr ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
           `Z`;
 
-      case 'edge-side':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          (tl       ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
-          `v ${ s} ` +
-          (bl || tr ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
-          `h ${ s} ` +
-          (tl       ? `h ${ s} v ${-s} ` : `l ${ s} ${-s} `) +
-          `v ${-s} ` +
-          (tr || bl ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
-          `Z`;
-
-      case 'edge-ext':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          (!tl ? `h ${-s} v ${ s} ` : `l ${-s} ${ s} `) +
-          `v ${ s} ` +
-          (!bl ? `v ${ s} h ${ s} ` : `l ${ s} ${ s} `) +
-          `h ${ s * 2} ` +
-          `v ${-s * 2} ` +
-          (!tr ? `v ${-s} h ${-s} ` : `l ${-s} ${-s} `) +
-          `Z`;
-
       case 'round':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          `a ${ s} ${s} 0 0 0 ${-s} ${ s} ` +
-          `v ${ s} ` +
-          `a ${ s} ${s} 0 0 0 ${ s} ${ s} ` +
-          `h ${ s} ` +
-          `a ${ s} ${s} 0 0 0 ${ s} ${-s} ` +
-          `v ${-s} ` +
-          `a ${ s} ${s} 0 0 0 ${-s} ${-s} ` +
-          `Z`;
-
       case 'round-int':
+      case 'round-side':
+      case 'round-ext':
         return `M ${x + s * 3} ${y + s * 2} ` +
           (tl ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
           `v ${ s} ` +
           (bl ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
           `h ${ s} ` +
-                                     `a ${ s} ${s} 0 0 0 ${ s} ${-s} ` +
+          (br ? `h ${ s} v ${-s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${-s} `) +
           `v ${-s} ` +
           (tr ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
-          `Z`;
-
-      case 'round-side':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          (tl       ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
-          `v ${ s} ` +
-          (bl || tr ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
-          `h ${ s} ` +
-          (      tl ? `h ${ s} v ${-s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${-s} `) +
-          `v ${-s} ` +
-          (tr || bl ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
-          `Z`;
-
-      case 'round-ext':
-        return `M ${x + s * 3} ${y + s * 2} ` +
-          (!tl ? `h ${-s} v ${ s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${ s} `) +
-          `v ${ s} ` +
-          (!bl ? `v ${ s} h ${ s} ` : `a ${ s} ${s} 0 0 0 ${ s} ${ s} `) +
-          `h ${ s * 2} ` +
-          `v ${-s * 2} ` +
-          (!tr ? `v ${-s} h ${-s} ` : `a ${ s} ${s} 0 0 0 ${-s} ${-s} `) +
           `Z`;
 
       case 'square':
