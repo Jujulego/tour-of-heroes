@@ -1,6 +1,6 @@
-<div class="grid">
-  <div class="data">
-    <mat-card>
+<div class="row">
+  <div class="col-xs-12 col-xl-auto mb-4">
+    <mat-card class="data">
       <mat-card-header>
         <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
       </mat-card-header>
@@ -40,15 +40,14 @@
       </mat-card-actions>
     </mat-card>
   </div>
-</div>
-<div class="grid">
-  <div>
+  <div class="col mb-4">
     <mat-card>
       <mat-card-header>
         <mat-card-title>QR Code Options</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        <div>
+      <mat-card-content class="row">
+        <div class="col">
+          <div>
           <mat-form-field>
             <mat-label>Square style</mat-label>
             <mat-select #squareStyle>
@@ -61,66 +60,63 @@
               <mat-option value="round">Round</mat-option>
             </mat-select>
           </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Eye style</mat-label>
+              <mat-select #eyeStyle>
+                <mat-option value="circle">Circle</mat-option>
+                <mat-option value="square">Square</mat-option>
+                <mat-option value="edge">Edge</mat-option>
+                <mat-option value="edge-int">Edge (internal)</mat-option>
+                <mat-option value="edge-side">Edge (side)</mat-option>
+                <mat-option value="edge-ext">Edge (external)</mat-option>
+                <mat-option value="round">Round</mat-option>
+                <mat-option value="round-int">Round (internal)</mat-option>
+                <mat-option value="round-side">Round (side)</mat-option>
+                <mat-option value="round-ext">Round (external)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <h4>Foreground</h4>
+          <div class="foreground-type">
+            <mat-radio-group [(ngModel)]="foregroundType">
+              <mat-radio-button value="plain">Plain</mat-radio-button>
+              <mat-radio-button value="radial">Radial</mat-radio-button>
+              <mat-radio-button value="linear-x">Linear X</mat-radio-button>
+              <mat-radio-button value="linear-y">Linear Y</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>{{ foregroundType ? 'From' : 'Color' }}</mat-label>
+              <input matInput type=color [(ngModel)]="foregroundFrom" />
+            </mat-form-field>
+            <mat-form-field *ngIf="foregroundType !== 'plain'">
+              <mat-label>To</mat-label>
+              <input matInput type=color [(ngModel)]="foregroundTo" />
+            </mat-form-field>
+          </div>
+          <h4>Background</h4>
+          <div>
+            <mat-form-field>
+              <mat-label>Color</mat-label>
+              <input matInput type=color [(ngModel)]="background" />
+            </mat-form-field>
+          </div>
         </div>
-        <div>
-          <mat-form-field>
-            <mat-label>Eye style</mat-label>
-            <mat-select #eyeStyle>
-              <mat-option value="circle">Circle</mat-option>
-              <mat-option value="square">Square</mat-option>
-              <mat-option value="edge">Edge</mat-option>
-              <mat-option value="edge-int">Edge (internal)</mat-option>
-              <mat-option value="edge-side">Edge (side)</mat-option>
-              <mat-option value="edge-ext">Edge (external)</mat-option>
-              <mat-option value="round">Round</mat-option>
-              <mat-option value="round-int">Round (internal)</mat-option>
-              <mat-option value="round-side">Round (side)</mat-option>
-              <mat-option value="round-ext">Round (external)</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div class="col-auto">
+          <app-qrcode
+            *ngIf="hero"
+            [data]="hero.name"
+            width="300"
+            icon="/assets/marvel.png"
+            [background]="background"
+            [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
+            [eyeStyle]="eyeStyle.value"
+            [squareStyle]="squareStyle.value"
+          ></app-qrcode>
         </div>
-        <h4>Foreground</h4>
-        <div class="foreground-type">
-          <mat-radio-group [(ngModel)]="foregroundType">
-            <mat-radio-button value="plain">Plain</mat-radio-button>
-            <mat-radio-button value="radial">Radial</mat-radio-button>
-            <mat-radio-button value="linear-x">Linear X</mat-radio-button>
-            <mat-radio-button value="linear-y">Linear Y</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div>
-          <mat-form-field>
-            <mat-label>{{ foregroundType ? 'From' : 'Color' }}</mat-label>
-            <input matInput type=color [(ngModel)]="foregroundFrom" />
-          </mat-form-field>
-          <mat-form-field *ngIf="foregroundType !== 'plain'">
-            <mat-label>To</mat-label>
-            <input matInput type=color [(ngModel)]="foregroundTo" />
-          </mat-form-field>
-        </div>
-        <h4>Background</h4>
-        <div>
-          <mat-form-field>
-            <mat-label>Color</mat-label>
-            <input matInput type=color [(ngModel)]="background" />
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div class="qr">
-    <mat-card *ngIf="hero">
-      <mat-card-content>
-        <app-qrcode
-          [data]="hero.name"
-          width="300"
-          icon="/assets/marvel.png"
-          [background]="background"
-          [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
-          [eyeStyle]="eyeStyle.value"
-          [squareStyle]="squareStyle.value"
-        ></app-qrcode>
       </mat-card-content>
     </mat-card>
   </div>

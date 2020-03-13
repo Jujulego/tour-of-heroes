@@ -404,8 +404,12 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
 
     // Add icon
     if (this.img) {
-      this.ctx.fillStyle = 'black';
-      this.ctx.strokeStyle = 'black';
+      this.ctx.fillStyle = this.background;
+
+      this.ctx.fillRect(
+        this.imageBBox.x, this.imageBBox.y,
+        this.imageBBox.width, this.imageBBox.height
+      );
 
       this.ctx.drawImage(this.img,
         this.imageBBox.x, this.imageBBox.y,

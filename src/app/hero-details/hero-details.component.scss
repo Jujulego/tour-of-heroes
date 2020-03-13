@@ -1,55 +1,36 @@
+@import "src/styles";
+
 // Rules
 :host {
+  @include make-container();
+
   display: block;
 }
 
-.grid {
-  display: flex;
+.data {
+  min-width: 250px;
 
-  margin: -8px;
+  mat-card-content {
+    min-height: 120px;
 
-  &:not(:first-child) {
-    margin-top: 8px;
+    margin-bottom: 0;
+
+    padding-top: 8px;
   }
 
-  &:not(:last-child) {
-    margin-bottom: 8px;
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.foreground-type {
+  mat-radio-group {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  > * {
-    margin: 8px;
-  }
-
-  .data {
-    flex-grow: 1;
-    max-width: 500px;
-
-    mat-card-content {
-      min-height: 120px;
-
-      margin-bottom: 0;
-
-      padding-top: 8px;
-    }
-
-    mat-form-field {
-      width: 100%;
-    }
-  }
-
-  .qr {
-    flex-shrink: 0;
-  }
-
-  .foreground-type {
-    mat-radio-group {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    mat-radio-button {
-      margin-right: 16px;
-      margin-bottom: 16px;
-    }
+  mat-radio-button {
+    margin-right: 16px;
+    margin-bottom: 16px;
   }
 }
