@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { ElementRef, Input, ViewChild } from '@angular/core';
 
 import * as qrcode from 'qrcode';
 import { QRCodeErrorCorrectionLevel } from 'qrcode';
@@ -21,24 +21,26 @@ function inEyeFrame(x: number, y: number, size: number): boolean {
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']
 })
-export class QrcodeComponent implements OnInit {
+export class QrcodeComponent implements OnInit, AfterViewInit {
   // Inputs
   @Input() data: string;
   @Input() width: string;
-  @Input() image: string;
-  @Input() squareStyle: SquareStyle;
+  @Input() icon: string;
+  @Input() squareStyle: SquareStyle = 'diamond';
 
   @Input() version: string;
   @Input() correction: QRCodeErrorCorrectionLevel;
 
-  // Attributes
-  size = 10;
-  scale = 100;
-  squares: Square[] = [];
+  // Childs
+  @ViewChild('canvas', { static: true })
+  canvas: ElementRef<HTMLCanvasElement>;
 
-  get viewBox(): string {
-    return `0,0,${this.width},${this.width}`;
-  }
+  // Attributes
+  private size = 10;
+  private scale = 100;
+  private squares: Square[] = [];
+
+  private ctx: CanvasRenderingContext2D;
 
   get imageBBox() {
     const w = parseInt(this.width, 10);
@@ -56,8 +58,13 @@ export class QrcodeComponent implements OnInit {
     this.generate();
   }
 
+  ngAfterViewInit(): void {
+    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.draw();
+  }
+
   // Methods
-  squarePath(square: Square): string {
+  private squarePath(square: Square): string {
     const s = this.scale;
     const x = square.x * this.scale;
     const y = square.y * this.scale;
@@ -155,5 +162,61 @@ export class QrcodeComponent implements OnInit {
     this.size = size;
     this.scale = parseInt(this.width, 10) / size;
     this.squares = squares;
+
+    if (this.ctx) {
+      this.draw();
+    }
+  }
+
+  private draw() {
+    // Measures
+    const width = parseInt(this.width, 10);
+    const size = this.size;
+    const s = this.scale;
+
+    // Clear canvas
+    this.ctx.clearRect(0, 0, width, width);
+
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, width, width);
+
+    // Draw eyes
+    this.ctx.fillStyle = 'black';
+    this.ctx.strokeStyle = 'black';
+    this.ctx.lineWidth = s;
+
+    // - top left
+    this.ctx.strokeRect(0.5 * s, 0.5 * s, 6 * s, 6 * s);
+    this.ctx.fillRect(2 * s, 2 * s, 3 * s, 3 * s);
+
+    // - bottom left
+    this.ctx.strokeRect(0.5 * s, (size - 6.5) * s, 6 * s, 6 * s);
+    this.ctx.fillRect(2 * s, (size - 5) * s, 3 * s, 3 * s);
+
+    // - top right
+    this.ctx.strokeRect((size - 6.5) * s, 0.5 * s, 6 * s, 6 * s);
+    this.ctx.fillRect((size - 5) * s, 2 * s, 3 * s, 3 * s);
+
+    // Draw squares
+    this.ctx.fillStyle = 'black';
+
+    this.squares.forEach(square => {
+      this.ctx.fill(new Path2D(this.squarePath(square)));
+    });
+
+    // Add icon
+    if (this.icon) {
+      const img = new Image();
+
+      img.onload = () => {
+        console.log('image ! ', this.ctx, this.imageBBox);
+        this.ctx.drawImage(img,
+          this.imageBBox.x, this.imageBBox.y,
+          this.imageBBox.width, this.imageBBox.height
+        );
+      };
+
+      img.src = this.icon;
+    }
   }
 }
