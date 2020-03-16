@@ -489,6 +489,10 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     };
 
     this.iconData$.subscribe((blob) => {
+      if (this.img.src) {
+        URL.revokeObjectURL(this.img.src);
+      }
+
       this.img.src = URL.createObjectURL(blob);
     });
 
