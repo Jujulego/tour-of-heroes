@@ -11,14 +11,13 @@ export class ImageDataService {
   ) {}
 
   // Methods
-  blob2url(blob: Blob): Promise<SafeResourceUrl> {
-    return new Promise<SafeResourceUrl>((resolve) => {
+  blob2url(blob: Blob): Promise<string> {
+    return new Promise<string>((resolve) => {
       const reader = new FileReader();
       reader.readAsDataURL(blob);
 
       reader.onloadend = () => {
-        const data = reader.result as string;
-        resolve(this.sanitizer.bypassSecurityTrustResourceUrl(data));
+        resolve(reader.result as string);
       };
     });
   }

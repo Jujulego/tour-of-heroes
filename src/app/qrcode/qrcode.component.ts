@@ -84,11 +84,15 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
   private ctx: CanvasRenderingContext2D;
 
-  get fg(): string {
+  get fg(): Gradient {
     if (typeof this.foreground === 'string') {
-      return this.foreground;
+      return {
+        type: 'plain',
+        from: this.foreground,
+        to: this.foreground
+      };
     } else {
-      return this.foreground.from;
+      return this.foreground;
     }
   }
 
