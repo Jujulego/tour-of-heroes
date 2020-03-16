@@ -506,6 +506,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private loadIcon() {
+    if (!this.icon) { return; }
     if (typeof this.icon === 'string') {
       this.iconURL$.next(this.icon);
     } else {
