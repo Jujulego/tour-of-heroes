@@ -3,7 +3,7 @@ import { ElementRef, Input, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { ConnectableObservable, from, Observable, Subject } from 'rxjs';
+import { ConnectableObservable, from, merge, Observable, Subject } from 'rxjs';
 import { multicast, switchMap } from 'rxjs/operators';
 
 import * as qrcode from 'qrcode';
@@ -52,7 +52,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() correction: QRCodeErrorCorrectionLevel;
 
   @Input() width: string;
-  @Input() icon: string;
+  @Input() icon: string | File;
 
   @Input() background: Color = 'white';
   @Input() foreground: QRColor = 'black';
@@ -75,6 +75,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
   private img?: HTMLImageElement;
   private iconURL$ = new Subject<string>();
+  private iconFile$ = new Subject<Blob>();
   private iconData$: ConnectableObservable<Blob>;
 
   private ctx: CanvasRenderingContext2D;
@@ -107,17 +108,19 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   // Lifecycle
   ngOnInit(): void {
     this.setupIconPipeline();
-    this.iconURL$.next(this.icon);
+    this.loadIcon();
+    console.log('onInit');
   }
 
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.draw();
+    console.log('ngAfterViewInit');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.icon) {
-      this.iconURL$.next(this.icon);
+      this.loadIcon();
     }
 
     if (changes.data || changes.version || changes.correction) {
@@ -125,6 +128,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     } else if (changes.width || changes.background || changes.foreground || changes.eyeStyle || changes.squareStyle) {
       this.draw();
     }
+    console.log('onChanges');
   }
 
   // Methods
@@ -438,7 +442,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     });
 
     // Add icon
-    if (this.img) {
+    if (this.img && this.icon) {
       this.ctx.fillStyle = this.background;
 
       this.ctx.drawImage(this.img,
@@ -450,11 +454,13 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
   private setupIconPipeline() {
     // Download Icon
-    this.iconData$ = this.iconURL$
-      .pipe(
-        switchMap((url: string) => this.http.get(url, { responseType: 'blob' })),
-        multicast(new Subject())
-      ) as ConnectableObservable<Blob>;
+    this.iconData$ = merge(
+      this.iconFile$,
+      this.iconURL$
+        .pipe(
+          switchMap((url: string) => this.http.get(url, { responseType: 'blob' }))
+        )
+    ).pipe(multicast(new Subject())) as ConnectableObservable<Blob>;
 
     // Create img element for canvas
     this.img = new Image();
@@ -487,6 +493,11 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private loadIcon() {
+    if (typeof this.icon === 'string') {
+      this.iconURL$.next(this.icon);
+    } else {
+      this.iconFile$.next(this.icon);
+    }
   }
 
   downloadHref(format: DownloadFormat): SafeResourceUrl {

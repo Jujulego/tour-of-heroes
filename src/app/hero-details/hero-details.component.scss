@@ -34,3 +34,13 @@
     margin-bottom: 16px;
   }
 }
+
+.icon {
+  height: 100%;
+  width: 50px;
+
+  &.selected {
+    border-color: mat-color($tour-of-heroes-primary, default);
+    border-width: 2px;
+  }
+}

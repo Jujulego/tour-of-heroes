@@ -30,7 +30,7 @@
   </g>
 
   <!-- Icon -->
-  <image
+  <image *ngIf="icon"
     [attr.xlink:href]="icon$ | async"
     [attr.x]="imageBBox.x"
     [attr.y]="imageBBox.y"

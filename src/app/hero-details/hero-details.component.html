@@ -118,7 +118,7 @@
           <app-qrcode #qrcode
             [data]="hero.name"
             width="300"
-            icon="/assets/marvel.png"
+            [icon]="file || icon"
             correction="H"
             [renderMode]="renderMode.value"
             [background]="background"
@@ -126,9 +126,20 @@
             [eyeStyle]="eyeStyle.value"
             [squareStyle]="squareStyle.value"
           ></app-qrcode>
-          <div>
-            <a mat-button download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
-            <a mat-button download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>
+          <div class="d-flex justify-content-around my-2">
+            <a mat-button color="primary" download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
+            <a mat-button color="primary" download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>
+          </div>
+          <div class="d-flex justify-content-around my-2">
+            <img *ngFor="let i of icons"
+              class="icon img-thumbnail"
+              [class.selected]="i === icon"
+              [src]="i"
+              (click)="selectIcon(i)"
+            />
+          </div>
+          <div class="my-2">
+            <input type=file (change)="fileChange($event)" />
           </div>
         </div>
       </mat-card-content>

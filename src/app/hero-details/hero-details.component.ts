@@ -6,7 +6,7 @@ import { AppBarService } from '../app-bar.service';
 import { HeroService } from '../hero.service';
 
 import { Hero } from '../hero';
-import { GradientType, QRColor } from '../qrcode/qrcode.component';
+import { GradientType } from '../qrcode/qrcode.component';
 
 @Component({
   selector: 'app-hero-details',
@@ -19,10 +19,14 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   hero: Hero;
   loading = false;
 
+  icon = '/assets/marvel.svg';
+  icons = ['/assets/marvel.svg', '/assets/marvel.png'];
   foregroundType: GradientType = 'plain';
   foregroundFrom = '#1A237E';
   foregroundTo = '#42A5F5';
   background = '#C5CAE9';
+
+  file?: File = undefined;
 
   // Constructor
   constructor(
@@ -44,6 +48,15 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   }
 
   // Methods
+  selectIcon(icon: string) {
+    this.file = undefined;
+    this.icon = icon;
+  }
+
+  fileChange(event: Event) {
+    this.file = (event.target as HTMLInputElement).files[0];
+  }
+
   getHero() {
     this.id = this.route.snapshot.paramMap.get('id');
 
