@@ -1,13 +1,16 @@
 import { Component, AfterViewInit, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { ElementRef, Input, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { ConnectableObservable, from, merge, Observable, Subject } from 'rxjs';
 import { multicast, switchMap } from 'rxjs/operators';
 
 import * as qrcode from 'qrcode';
 import { QRCodeErrorCorrectionLevel } from 'qrcode';
+
+import { ImageDataService } from '../image-data.service';
+
 import { Square } from './square';
 
 // Types
@@ -65,18 +68,19 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   canvas: ElementRef<HTMLCanvasElement>;
 
   @ViewChild('svg', { static: true })
-  svg: ElementRef<HTMLCanvasElement>;
+  svg: ElementRef<SVGElement>;
 
   // Attributes
   size = 10;
   scale = 100;
   squares: Square[] = [];
-  icon$: Observable<string>;
 
-  private img?: HTMLImageElement;
-  private iconURL$ = new Subject<string>();
-  private iconFile$ = new Subject<Blob>();
-  private iconData$: ConnectableObservable<Blob>;
+  private img?: HTMLImageElement; // <img> element used to render icon inside canvas
+
+  private iconURL$ = new Subject<string>();       // icon url from @Input icon attribute
+  private iconFile$ = new Subject<Blob>();        // icon file object from @Input icon attribute
+  private iconData$: ConnectableObservable<Blob>; // icon blob data (file from iconFile$ or downloaded from iconURL$)
+  icon$: Observable<SafeResourceUrl>;             // base64 encoded icon => svg
 
   private ctx: CanvasRenderingContext2D;
 
@@ -103,7 +107,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   // Constructor
   constructor(
     private http: HttpClient,
-    private sanitizer: DomSanitizer
+    private imageData: ImageDataService
   ) {}
 
   // Lifecycle
@@ -486,15 +490,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     // Convert data for svg
     this.icon$ = this.iconData$
       .pipe(
-        switchMap((data: Blob) => from(new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(data);
-
-            reader.onloadend = () => {
-              resolve(reader.result as string);
-            };
-          }))
-        )
+        switchMap((data: Blob) => from(this.imageData.blob2url(data)))
       );
 
     this.iconData$.connect();
@@ -515,20 +511,12 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Create png data
     switch (format) {
-      case 'svg': {
-        const serializer = new XMLSerializer();
-        const data = btoa(serializer.serializeToString(this.svg.nativeElement));
-
-        return this.sanitizer.bypassSecurityTrustResourceUrl(
-          `data:image/svg+xml;base64,${data}`
-        );
-      }
+      case 'svg':
+        return this.imageData.svg2url(this.svg);
 
       case 'png':
       default:
-        return this.sanitizer.bypassSecurityTrustResourceUrl(
-          this.canvas.nativeElement.toDataURL('image/png')
-        );
+        return this.imageData.canvas2url(this.canvas);
     }
   }
 }
