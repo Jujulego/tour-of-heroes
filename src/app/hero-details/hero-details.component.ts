@@ -48,7 +48,7 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.appBar.back = false;
+    this.appBar.hideBack();
   }
 
   // Methods

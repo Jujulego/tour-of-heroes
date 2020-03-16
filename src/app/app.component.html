@@ -1,8 +1,13 @@
 <nav>
   <mat-toolbar color="primary">
-    <button
-      mat-icon-button class="back-btn"
-      *ngIf="appBar.back"
+    <button *ngIf="appBar.small && !appBar.back"
+      mat-icon-button class="menu-btn"
+      (click)="appBar.toggle()"
+    >
+      <mat-icon>{{ appBar.opened ? 'arrow_backward' : 'menu' }}</mat-icon>
+    </button>
+    <button *ngIf="appBar.back"
+      mat-icon-button class="menu-btn"
       (click)="goBack()"
     >
       <mat-icon>arrow_backward</mat-icon>
@@ -12,17 +17,27 @@
 </nav>
 
 <mat-drawer-container>
-  <mat-drawer mode="side" opened>
+  <mat-drawer
+    [mode]="appBar.small ? 'over' : 'side'"
+    [opened]="!appBar.small || appBar.opened"
+    (closed)="appBar.close()"
+  >
     <mat-toolbar class="fake"></mat-toolbar>
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard">
+      <a mat-list-item routerLink="/dashboard"
+        (click)="appBar.close()"
+      >
         Dashboard
       </a>
-      <a mat-list-item routerLink="/heroes">
+      <a mat-list-item routerLink="/heroes"
+        (click)="appBar.close()"
+      >
         Heroes
       </a>
-      <a mat-list-item routerLink="/tests">
+      <a mat-list-item routerLink="/tests"
+        (click)="appBar.close()"
+      >
         Tests
       </a>
     </mat-nav-list>
