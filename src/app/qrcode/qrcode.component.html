@@ -52,7 +52,6 @@
   </g>
 
   <!-- Squares -->
-<!--  <g [attr.fill]="fg">-->
   <g [attr.fill]="fg.type === 'plain' ? fg.from : 'url(#gradient)'">
     <path *ngFor="let square of squares" [attr.d]="squarePath(square)" />
   </g>

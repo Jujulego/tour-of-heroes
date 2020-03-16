@@ -84,7 +84,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
   private ctx: CanvasRenderingContext2D;
 
-  get fg(): Gradient {
+  get fg(): Gradient { // Simplify foreground structure for template
     if (typeof this.foreground === 'string') {
       return {
         type: 'plain',
@@ -96,7 +96,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  get imageBBox() {
+  get imageBBox() { // Compute image size and coordinates
     const s = this.scale;
     const w = Math.floor(this.size * 0.35);
 
@@ -137,7 +137,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   // Methods
-  private buildForeground() {
+  private buildForeground() { // Build foreground value for canvas context
     if (typeof this.foreground === 'string') {
       return this.foreground;
     }
@@ -170,7 +170,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     return grad;
   }
 
-  private eyeAngles(x: number, y: number) {
+  private eyeAngles(x: number, y: number) { // Computes which eye angles SHOULD NOT be customized
     const mode = /^[a-z]+-([a-z]+)$/i.test(this.eyeStyle) ? RegExp.$1 : '';
     if (mode === '') {
       return { tl: false, bl: false, br: false, tr: false };
@@ -188,7 +188,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     };
   }
 
-  framePath(x: number, y: number): string {
+  framePath(x: number, y: number): string { // Computes a svg path for the eye's frames
     const s = this.scale;
     x *= this.scale;
     y *= this.scale;
@@ -240,7 +240,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  ballPath(x: number, y: number): string {
+  ballPath(x: number, y: number): string { // Computes svg path for eye's balls
     const s = this.scale;
     x *= this.scale;
     y *= this.scale;
@@ -292,11 +292,12 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  squarePath(square: Square): string {
+  squarePath(square: Square): string { // Computes svg path for one black square of the QRCode
     const s = this.scale;
     const x = square.x * this.scale;
     const y = square.y * this.scale;
 
+    // Computes which square angle SHOULD be customized
     const tl = !square.top && !square.left;
     const tr = !square.top && !square.right;
     const bl = !square.bottom && !square.left;
@@ -356,7 +357,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  private generate() {
+  private generate() { // Computes the QRCode from the given data
     // If no data ...
     if (!this.data) {
       this.draw();
@@ -402,7 +403,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  private draw() {
+  private draw() { // Draws the QRCode inside the canvas
     // Get context
     if (!this.canvas) { return; }
     if (!this.ctx) {
