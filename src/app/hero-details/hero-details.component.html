@@ -98,7 +98,7 @@
           </div>
           <div>
             <mat-form-field>
-              <mat-label>{{ foregroundType ? 'From' : 'Color' }}</mat-label>
+              <mat-label>{{ foregroundType !== 'plain' ? 'From' : 'Color' }}</mat-label>
               <input matInput type=color [(ngModel)]="foregroundFrom" />
             </mat-form-field>
             <mat-form-field *ngIf="foregroundType !== 'plain'">

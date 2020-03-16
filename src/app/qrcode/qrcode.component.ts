@@ -148,7 +148,7 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
 
     switch (this.foreground.type) {
       case 'radial':
-        grad = this.ctx.createRadialGradient(w / 2, w / 2, w / 2 * Math.sqrt(2), w / 2, w / 2, 0);
+        grad = this.ctx.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2 * Math.sqrt(2));
         break;
 
       case 'linear-x':
