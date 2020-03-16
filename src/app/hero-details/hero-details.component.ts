@@ -20,7 +20,7 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   loading = false;
 
   icon = '/assets/marvel.svg';
-  icons = ['/assets/marvel.svg', '/assets/marvel.png'];
+  icons = ['/assets/marvel.svg', '/assets/superhero.svg'];
   foregroundType: GradientType = 'plain';
   foregroundFrom = '#1A237E';
   foregroundTo = '#42A5F5';

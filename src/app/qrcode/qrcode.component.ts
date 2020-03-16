@@ -110,13 +110,10 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
     this.setupIconPipeline();
     this.loadIcon();
-    console.log('onInit');
   }
 
   ngAfterViewInit(): void {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
     this.draw();
-    console.log('ngAfterViewInit');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,7 +126,6 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     } else if (changes.width || changes.background || changes.foreground || changes.eyeStyle || changes.squareStyle) {
       this.draw();
     }
-    console.log('onChanges');
   }
 
   // Methods
@@ -399,6 +395,12 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private draw() {
+    // Get context
+    if (!this.canvas) { return; }
+    if (!this.ctx) {
+      this.ctx = this.canvas.nativeElement.getContext('2d');
+    }
+
     // Measures
     const width = parseInt(this.width, 10);
     const size = this.size;

@@ -39,8 +39,13 @@
   height: 100%;
   width: 50px;
 
+  border-width: 2px;
+
+  &:hover {
+    border-color: mat-color($tour-of-heroes-primary, 300);
+  }
+
   &.selected {
     border-color: mat-color($tour-of-heroes-primary, default);
-    border-width: 2px;
   }
 }

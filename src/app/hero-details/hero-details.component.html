@@ -133,7 +133,7 @@
           <div class="d-flex justify-content-around my-2">
             <img *ngFor="let i of icons"
               class="icon img-thumbnail"
-              [class.selected]="i === icon"
+              [class.selected]="!file && i === icon"
               [src]="i"
               (click)="selectIcon(i)"
             />
