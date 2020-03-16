@@ -89,13 +89,14 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   get imageBBox() {
-    const w = parseInt(this.width, 10);
+    const s = this.scale;
+    const w = Math.floor(this.size * 0.35);
 
     return {
-      x: w * 0.3,
-      y: w * 0.3,
-      width: w * 0.35,
-      height: w * 0.35,
+      x: s * (this.size - w) / 2,
+      y: s * (this.size - w) / 2,
+      width: s * w,
+      height: s * w,
     };
   }
 
@@ -444,6 +445,11 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
     // Add icon
     if (this.img && this.icon) {
       this.ctx.fillStyle = this.background;
+
+      this.ctx.fillRect(
+        this.imageBBox.x, this.imageBBox.y,
+        this.imageBBox.width, this.imageBBox.height
+      );
 
       this.ctx.drawImage(this.img,
         this.imageBBox.x, this.imageBBox.y,

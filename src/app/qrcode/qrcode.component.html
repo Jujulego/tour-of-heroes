@@ -30,11 +30,19 @@
   </g>
 
   <!-- Icon -->
-  <image *ngIf="icon"
-    [attr.xlink:href]="icon$ | async"
-    [attr.x]="imageBBox.x"
-    [attr.y]="imageBBox.y"
-    [attr.width]="imageBBox.width"
-    [attr.height]="imageBBox.height"
-  />
+  <g *ngIf="icon" [attr.fill]="background">
+    <rect
+      [attr.x]="imageBBox.x"
+      [attr.y]="imageBBox.y"
+      [attr.width]="imageBBox.width"
+      [attr.height]="imageBBox.height"
+    />
+    <image
+      [attr.xlink:href]="icon$ | async"
+      [attr.x]="imageBBox.x"
+      [attr.y]="imageBBox.y"
+      [attr.width]="imageBBox.width"
+      [attr.height]="imageBBox.height"
+    />
+  </g>
 </svg>
