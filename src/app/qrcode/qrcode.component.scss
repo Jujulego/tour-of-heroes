@@ -1,4 +1,8 @@
 // Rules
 :host {
-  display: block;
+  display: flex;
+}
+
+.hide {
+  display: none;
 }

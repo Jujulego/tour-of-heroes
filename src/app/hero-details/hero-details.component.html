@@ -48,23 +48,32 @@
       <mat-card-content class="row">
         <div class="col">
           <div>
-          <mat-form-field>
-            <mat-label>Square style</mat-label>
-            <mat-select #squareStyle>
-              <mat-option value="circle">Circle</mat-option>
-              <mat-option value="diamond">Diamond</mat-option>
-              <mat-option value="dot">Dot</mat-option>
-              <mat-option value="square">Square</mat-option>
-              <mat-option value="star">Star</mat-option>
-              <mat-option value="edge">Edge</mat-option>
-              <mat-option value="round">Round</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field>
+              <mat-label>Render mode</mat-label>
+              <mat-select #renderMode value="svg">
+                <mat-option value="canvas">Canvas</mat-option>
+                <mat-option value="svg">SVG</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Square style</mat-label>
+              <mat-select #squareStyle value="square">
+                <mat-option value="circle">Circle</mat-option>
+                <mat-option value="diamond">Diamond</mat-option>
+                <mat-option value="dot">Dot</mat-option>
+                <mat-option value="square">Square</mat-option>
+                <mat-option value="star">Star</mat-option>
+                <mat-option value="edge">Edge</mat-option>
+                <mat-option value="round">Round</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div>
             <mat-form-field>
               <mat-label>Eye style</mat-label>
-              <mat-select #eyeStyle>
+              <mat-select #eyeStyle value="square">
                 <mat-option value="circle">Circle</mat-option>
                 <mat-option value="square">Square</mat-option>
                 <mat-option value="edge">Edge</mat-option>
@@ -110,12 +119,17 @@
             [data]="hero.name"
             width="300"
             icon="/assets/marvel.png"
+            correction="H"
+            [renderMode]="renderMode.value"
             [background]="background"
             [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
             [eyeStyle]="eyeStyle.value"
             [squareStyle]="squareStyle.value"
           ></app-qrcode>
-          <a mat-button download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
+          <div>
+            <a mat-button download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
+            <a mat-button download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>

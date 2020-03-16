@@ -1,5 +1,10 @@
-import { Component, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { ElementRef, Input, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+import { ConnectableObservable, from, Observable, Subject } from 'rxjs';
+import { multicast, switchMap } from 'rxjs/operators';
 
 import * as qrcode from 'qrcode';
 import { QRCodeErrorCorrectionLevel } from 'qrcode';
@@ -26,7 +31,8 @@ interface Gradient {
 
 export type QRColor = Color | Gradient;
 
-export type DownloadType = 'png';
+export type DownloadFormat = 'png' | 'svg';
+export type RenderMode = 'canvas' | 'svg';
 
 // Utils
 function inEyeFrame(x: number, y: number, size: number): boolean {
@@ -39,7 +45,7 @@ function inEyeFrame(x: number, y: number, size: number): boolean {
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']
 })
-export class QrcodeComponent implements AfterViewInit, OnChanges {
+export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
   // Inputs
   @Input() data: string;
   @Input() version: string;
@@ -52,18 +58,34 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
   @Input() foreground: QRColor = 'black';
   @Input() eyeStyle: EyeStyle;
   @Input() squareStyle: SquareStyle;
+  @Input() renderMode: RenderMode = 'svg';
 
   // Childs
   @ViewChild('canvas', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
 
+  @ViewChild('svg', { static: true })
+  svg: ElementRef<HTMLCanvasElement>;
+
   // Attributes
-  private size = 10;
-  private scale = 100;
-  private squares: Square[] = [];
+  size = 10;
+  scale = 100;
+  squares: Square[] = [];
+  icon$: Observable<string>;
 
   private img?: HTMLImageElement;
+  private iconURL$ = new Subject<string>();
+  private iconData$: ConnectableObservable<Blob>;
+
   private ctx: CanvasRenderingContext2D;
+
+  get fg(): string {
+    if (typeof this.foreground === 'string') {
+      return this.foreground;
+    } else {
+      return this.foreground.from;
+    }
+  }
 
   get imageBBox() {
     const w = parseInt(this.width, 10);
@@ -76,7 +98,18 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     };
   }
 
+  // Constructor
+  constructor(
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+  ) {}
+
   // Lifecycle
+  ngOnInit(): void {
+    this.setupIconPipeline();
+    this.iconURL$.next(this.icon);
+  }
+
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.draw();
@@ -84,7 +117,7 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.icon) {
-      this.loadIcon();
+      this.iconURL$.next(this.icon);
     }
 
     if (changes.data || changes.version || changes.correction) {
@@ -146,7 +179,7 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     };
   }
 
-  private framePath(x: number, y: number): string {
+  framePath(x: number, y: number): string {
     const s = this.scale;
     x *= this.scale;
     y *= this.scale;
@@ -198,7 +231,7 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private ballPath(x: number, y: number): string {
+  ballPath(x: number, y: number): string {
     const s = this.scale;
     x *= this.scale;
     y *= this.scale;
@@ -250,7 +283,7 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private squarePath(square: Square): string {
+  squarePath(square: Square): string {
     const s = this.scale;
     const x = square.x * this.scale;
     const y = square.y * this.scale;
@@ -415,13 +448,15 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private loadIcon() {
-    if (!this.icon) {
-      this.img = undefined;
-      return;
-    }
+  private setupIconPipeline() {
+    // Download Icon
+    this.iconData$ = this.iconURL$
+      .pipe(
+        switchMap((url: string) => this.http.get(url, { responseType: 'blob' })),
+        multicast(new Subject())
+      ) as ConnectableObservable<Blob>;
 
-    // Load image
+    // Create img element for canvas
     this.img = new Image();
 
     this.img.onload = () => {
@@ -430,15 +465,51 @@ export class QrcodeComponent implements AfterViewInit, OnChanges {
       }
     };
 
-    this.img.src = this.icon;
+    this.iconData$.subscribe((blob) => {
+      this.img.src = URL.createObjectURL(blob);
+    });
+
+    // Convert data for svg
+    this.icon$ = this.iconData$
+      .pipe(
+        switchMap((data: Blob) => from(new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(data);
+
+            reader.onloadend = () => {
+              resolve(reader.result as string);
+            };
+          }))
+        )
+      );
+
+    this.iconData$.connect();
   }
 
-  downloadHref(type: DownloadType): string {
-    if (!this.canvas || !this.data) {
+  private loadIcon() {
+  }
+
+  downloadHref(format: DownloadFormat): SafeResourceUrl {
+    if (!this.canvas || !this.svg || !this.data) {
       return '';
     }
 
     // Create png data
-    return this.canvas.nativeElement.toDataURL('image/png');
+    switch (format) {
+      case 'svg': {
+        const serializer = new XMLSerializer();
+        const data = btoa(serializer.serializeToString(this.svg.nativeElement));
+
+        return this.sanitizer.bypassSecurityTrustResourceUrl(
+          `data:image/svg+xml;base64,${data}`
+        );
+      }
+
+      case 'png':
+      default:
+        return this.sanitizer.bypassSecurityTrustResourceUrl(
+          this.canvas.nativeElement.toDataURL('image/png')
+        );
+    }
   }
 }

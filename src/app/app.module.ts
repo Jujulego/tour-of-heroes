@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
@@ -30,8 +32,6 @@ import { TestsComponent } from './tests/tests.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,10 @@ import { MatRadioModule } from '@angular/material/radio';
     HttpClientModule,
     ...(env.memoryApi ? [
       HttpClientInMemoryWebApiModule.forRoot(
-        InMemoryDataService, {dataEncapsulation: false}
+        InMemoryDataService, {
+          dataEncapsulation: false,
+          passThruUnknownUrl: true,
+        }
       ),
     ] : []),
 

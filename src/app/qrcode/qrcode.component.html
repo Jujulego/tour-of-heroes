@@ -1,3 +1,40 @@
-<canvas #canvas [width]="width" [height]="width">
+<canvas #canvas
+  [class.hide]="renderMode !== 'canvas'"
+  [width]="width" [height]="width"
+>
   No canvas !
 </canvas>
+<svg #svg
+  [class.hide]="renderMode !== 'svg'"
+  [attr.width]="width" [attr.height]="width"
+>
+  <rect x="0" y="0" [attr.width]="width" [attr.height]="width" [attr.fill]="background"></rect>
+
+  <!-- Eye frames -->
+  <g fill="none" [attr.stroke]="fg" [attr.stroke-width]="scale">
+    <path [attr.d]="framePath(0, 0)" />
+    <path [attr.d]="framePath(0, size - 7)" />
+    <path [attr.d]="framePath(size - 7, 0)" />
+  </g>
+
+  <!-- Eye balls -->
+  <g [attr.fill]="fg">
+    <path [attr.d]="ballPath(0, 0)" />
+    <path [attr.d]="ballPath(0, size - 7)" />
+    <path [attr.d]="ballPath(size - 7, 0)" />
+  </g>
+
+  <!-- Squares -->
+  <g [attr.fill]="fg">
+    <path *ngFor="let square of squares" [attr.d]="squarePath(square)" />
+  </g>
+
+  <!-- Icon -->
+  <image
+    [attr.xlink:href]="icon$ | async"
+    [attr.x]="imageBBox.x"
+    [attr.y]="imageBBox.y"
+    [attr.width]="imageBBox.width"
+    [attr.height]="imageBBox.height"
+  />
+</svg>
