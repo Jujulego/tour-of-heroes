@@ -16,7 +16,7 @@ import { Square } from './square';
 // Types
 export type SquareStyle = |
   'circle' | 'diamond' | 'dot' | 'square' | 'star' |
-  'edge' | 'round';
+  'edge' | 'round' | 'zebra' | 'zebra-v';
 
 export type EyeStyle = |
   'circle' | 'square' |
@@ -345,6 +345,18 @@ export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
           `Q ${x + s * .4} ${y + s * .6} ${x + s / 2} ${y + s} ` +
           `Q ${x + s * .6} ${y + s * .6} ${x + s} ${y + s / 2} ` +
           `Q ${x + s * .6} ${y + s * .4} ${x + s / 2} ${y} ` +
+          `Z`;
+
+      case 'zebra':
+        return `M ${x + s / 2} ${y + s * .1} ` +
+          (square.left  ? `h ${-s / 2} v ${ s * .8} h ${ s / 2}` : `a ${s * .1} ${s * .1} 0 1 0 0 ${ s * .8} `) +
+          (square.right ? `h ${ s / 2} v ${-s * .8} h ${-s / 2}` : `a ${s * .1} ${s * .1} 0 1 0 0 ${-s * .8} `) +
+          `Z`;
+
+      case 'zebra-v':
+        return `M ${x + s * .1} ${y + s / 2} ` +
+          (square.bottom ? `v ${ s / 2} h ${ s * .8} v ${-s / 2}` : `a ${s * .1} ${s * .1} 0 1 0 ${ s * .8} 0 `) +
+          (square.top    ? `v ${-s / 2} h ${-s * .8} v ${ s / 2}` : `a ${s * .1} ${s * .1} 0 1 0 ${-s * .8} 0 `) +
           `Z`;
 
       case 'square':
