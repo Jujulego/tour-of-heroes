@@ -1,22 +1,6 @@
 @import 'src/styles';
 
 // Rules
-:host {
-  display: block;
-}
-
-mat-drawer-container {
-  height: 100vh;
-
-  mat-drawer {
-    width: 250px;
-  }
-
-  mat-drawer-content {
-    position: relative;
-  }
-}
-
 main {
   padding: 16px;
   margin-bottom: 56px;

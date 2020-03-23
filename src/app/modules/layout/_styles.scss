@@ -1,0 +1,15 @@
+// Rules
+app-layout {
+  mat-drawer-container {
+    height: 100%;
+    overflow: auto;
+
+    mat-drawer {
+      width: 250px;
+    }
+
+    mat-drawer-content {
+      position: relative;
+    }
+  }
+}

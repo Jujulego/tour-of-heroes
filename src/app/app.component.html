@@ -1,30 +1,28 @@
-<app-appbar [title]="title"></app-appbar>
+<app-layout>
+  <app-appbar [title]="title"></app-appbar>
 
-<mat-drawer-container>
-  <mat-drawer app-drawer>
-    <mat-toolbar class="fake"></mat-toolbar>
+  <mat-drawer-container>
+    <mat-drawer app-drawer>
+      <mat-nav-list>
+        <a app-close-appbar mat-list-item routerLink="/dashboard">
+          Dashboard
+        </a>
+        <a app-close-appbar mat-list-item routerLink="/heroes">
+          Heroes
+        </a>
+        <a app-close-appbar mat-list-item routerLink="/tests"
+          *ngIf="!production"
+        >
+          Tests
+        </a>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
 
-    <mat-nav-list>
-      <a app-close-appbar mat-list-item routerLink="/dashboard">
-        Dashboard
-      </a>
-      <a app-close-appbar mat-list-item routerLink="/heroes">
-        Heroes
-      </a>
-      <a *ngIf="!production"
-         app-close-appbar mat-list-item routerLink="/tests"
-      >
-        Tests
-      </a>
-    </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <mat-toolbar class="fake"></mat-toolbar>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <app-messages></app-messages>
-  </mat-drawer-content>
-</mat-drawer-container>
+      <app-messages></app-messages>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</app-layout>
