@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { v1 } from 'uuid';
 
-import { Hero } from './hero';
+import { Hero } from '../data/hero';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +12,16 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb(): { heroes: Hero[] } {
     return {
       heroes: [
-        { id: '11', name: 'Dr Nice' },
-        { id: '12', name: 'Narco' },
-        { id: '13', name: 'Bombasto' },
-        { id: '14', name: 'Celeritas' },
-        { id: '15', name: 'Magneta' },
-        { id: '16', name: 'RubberMan' },
-        { id: '17', name: 'Dynama' },
-        { id: '18', name: 'Dr IQ' },
-        { id: '19', name: 'Magma' },
-        { id: '20', name: 'Tornado' }
+        { id: '11', type: 'hero', name: 'Dr Nice' },
+        { id: '12', type: 'hero', name: 'Narco' },
+        { id: '13', type: 'hero', name: 'Bombasto' },
+        { id: '14', type: 'hero', name: 'Celeritas' },
+        { id: '15', type: 'hero', name: 'Magneta' },
+        { id: '16', type: 'hero', name: 'RubberMan' },
+        { id: '17', type: 'hero', name: 'Dynama' },
+        { id: '18', type: 'hero', name: 'Dr IQ' },
+        { id: '19', type: 'hero', name: 'Magma' },
+        { id: '20', type: 'hero', name: 'Tornado' }
       ]
     };
   }

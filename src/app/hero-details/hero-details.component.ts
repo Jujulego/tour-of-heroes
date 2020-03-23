@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppBarService } from '../app-bar.service';
 import { HeroService } from '../hero.service';
 
-import { Hero } from '../hero';
+import { Hero } from '../../data/hero';
 import { GradientType } from '../qrcode/qrcode.component';
 
 @Component({

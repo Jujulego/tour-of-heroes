@@ -20,6 +20,12 @@
             <input matInput [(ngModel)]="hero.name" />
           </mat-form-field>
         </div>
+        <div *ngIf="hero">
+          <mat-form-field>
+            <mat-label>Universe</mat-label>
+            <input matInput [(ngModel)]="hero.universe" />
+          </mat-form-field>
+        </div>
       </mat-card-content>
 
       <mat-card-actions align="end">

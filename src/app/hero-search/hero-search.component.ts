@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { HeroService } from '../hero.service';
 
-import { Hero } from '../hero';
+import { Hero } from '../../data/hero';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 
 @Component({

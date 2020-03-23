@@ -5,7 +5,7 @@ import { transition, trigger, useAnimation } from '@angular/animations';
 import { HeroService } from '../hero.service';
 
 import { listItemEnter, listItemLeave } from '../animations';
-import { Hero } from '../hero';
+import { Hero } from '../../data/hero';
 
 @Component({
   selector: 'app-hero-list',

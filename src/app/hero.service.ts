@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { MessageService } from './message.service';
 
-import { Hero } from './hero';
+import { Hero } from '../data/hero';
 import { catchError, tap } from 'rxjs/operators';
 
 import { environment as env } from '../environments/environment';
