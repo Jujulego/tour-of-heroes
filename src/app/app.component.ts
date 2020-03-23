@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
+import { environment as env } from '../environments/environment';
+
 import { AppBarService } from './app-bar.service';
 
 @Component({
@@ -11,6 +13,7 @@ import { AppBarService } from './app-bar.service';
 export class AppComponent {
   // Attributes
   title = 'Tour of Heroes';
+  production = env.production;
 
   // Constructor
   constructor(

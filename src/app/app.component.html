@@ -36,6 +36,7 @@
         Heroes
       </a>
       <a mat-list-item routerLink="/tests"
+        *ngIf="!production"
         (click)="appBar.close()"
       >
         Tests
