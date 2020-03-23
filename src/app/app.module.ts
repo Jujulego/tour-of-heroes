@@ -32,6 +32,7 @@ import { TestsComponent } from './tests/tests.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
+import { LayoutModule } from './modules/layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { environment as env } from '../environments/environment';
     MatSidenavModule,
     MatButtonToggleModule,
     MatSelectModule,
-    MatRadioModule
+    MatRadioModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
