@@ -5,17 +5,6 @@
   display: block;
 }
 
-mat-toolbar:not(.fake) {
-  @include mat-elevation(4);
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-
-  .menu-btn {
-    margin-right: 16px;
-  }
-}
-
 mat-drawer-container {
   height: 100vh;
 

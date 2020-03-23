@@ -1,27 +1,18 @@
 <app-appbar [title]="title"></app-appbar>
 
 <mat-drawer-container>
-  <mat-drawer
-    [mode]="appBar.small ? 'over' : 'side'"
-    [opened]="!appBar.small || appBar.opened"
-    (closed)="appBar.close()"
-  >
+  <mat-drawer app-drawer>
     <mat-toolbar class="fake"></mat-toolbar>
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard"
-        (click)="appBar.close()"
-      >
+      <a app-close-appbar mat-list-item routerLink="/dashboard">
         Dashboard
       </a>
-      <a mat-list-item routerLink="/heroes"
-        (click)="appBar.close()"
-      >
+      <a app-close-appbar mat-list-item routerLink="/heroes">
         Heroes
       </a>
-      <a mat-list-item routerLink="/tests"
-        *ngIf="!production"
-        (click)="appBar.close()"
+      <a *ngIf="!production"
+         app-close-appbar mat-list-item routerLink="/tests"
       >
         Tests
       </a>

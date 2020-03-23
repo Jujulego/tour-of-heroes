@@ -15,7 +15,7 @@ export class AppbarComponent {
 
   // Constructor
   constructor(
-    public appBar: AppbarService,
+    public appbar: AppbarService,
     private location: Location,
   ) {}
 

@@ -1,20 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AppbarComponent } from './components/appbar/appbar.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { DrawerComponent } from './components/drawer/drawer.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+import { AppbarComponent } from './components/appbar/appbar.component';
+import { CloseAppbarDirective } from './directives/close-appbar.directive';
+import { DrawerDirective } from './directives/drawer.directive';
 
 // Module
 @NgModule({
   declarations: [
     AppbarComponent,
-    DrawerComponent
+    CloseAppbarDirective,
+    DrawerDirective
   ],
   exports: [
-    AppbarComponent
+    AppbarComponent,
+    CloseAppbarDirective,
+    DrawerDirective
   ],
   imports: [
     CommonModule,
