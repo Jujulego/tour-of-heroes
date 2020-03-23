@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+
+// Rules
+.toolbar {
+  @include mat-elevation(4);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+
+  .menu-btn {
+    margin-right: 16px;
+  }
+
+  .title {
+    flex-grow: 1;
+  }
+}

@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 import { environment as env } from '../environments/environment';
 
-import { AppBarService } from './app-bar.service';
+import { AppbarService } from './modules/layout/services/appbar.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent {
 
   // Constructor
   constructor(
-    public appBar: AppBarService,
+    public appBar: AppbarService,
     private location: Location,
   ) {}
 

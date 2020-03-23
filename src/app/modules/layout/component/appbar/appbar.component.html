@@ -1,0 +1,23 @@
+<nav>
+  <mat-toolbar class="toolbar" color="primary">
+    <!-- Menu button -->
+    <button *ngIf="appBar.small && !appBar.back"
+      mat-icon-button class="menu-btn"
+      (click)="appBar.toggle()"
+    >
+      <mat-icon>{{ appBar.opened ? 'arrow_backward' : 'menu' }}</mat-icon>
+    </button>
+
+    <!-- Back button -->
+    <button *ngIf="appBar.back"
+      mat-icon-button class="menu-btn"
+      (click)="goBack()"
+    >
+      <mat-icon>{{ appBar.opened ? 'arrow_backward' : 'menu' }}</mat-icon>
+    </button>
+
+    <h1 class="title">{{ title }}</h1>
+
+    <ng-content></ng-content>
+  </mat-toolbar>
+</nav>

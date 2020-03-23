@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { AppBarService } from '../app-bar.service';
+import { AppbarService } from '../modules/layout/services/appbar.service';
 import { HeroService } from '../hero.service';
 
 import { Hero } from '../../data/hero';
@@ -35,7 +35,7 @@ export class HeroDetailsComponent implements OnInit, OnDestroy {
   // Constructor
   constructor(
     private route: ActivatedRoute,
-    private appBar: AppBarService,
+    private appBar: AppbarService,
     private heroService: HeroService,
     private location: Location
   ) {

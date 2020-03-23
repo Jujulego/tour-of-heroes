@@ -4,7 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Injectable({
   providedIn: 'root'
 })
-export class AppBarService {
+export class AppbarService {
   // Attributes
   back = false;
   small = false;
