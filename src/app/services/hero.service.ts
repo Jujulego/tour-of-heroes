@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { LoggingService } from './modules/logging/services/logging.service';
+import { LoggingService } from '../modules/logging/services/logging.service';
 
-import { Hero } from '../data/hero';
+import { Hero } from '../../data/hero';
 import { catchError, tap } from 'rxjs/operators';
 
-import { environment as env } from '../environments/environment';
+import { environment as env } from '../../environments/environment';
 
 const BASE_URL = env.memoryApi ? 'api' : env.baseUrl;
 

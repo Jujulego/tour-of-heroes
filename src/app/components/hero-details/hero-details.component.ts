@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { AppbarService } from '../modules/layout/services/appbar.service';
-import { HeroService } from '../hero.service';
+import { AppbarService } from '../../modules/layout/services/appbar.service';
+import { HeroService } from '../../services/hero.service';
 
-import { Hero } from '../../data/hero';
-import { GradientType } from '../modules/qr-code/components/qr-code/qr-code.component';
+import { Hero } from '../../../data/hero';
+import { GradientType } from '../../modules/qr-code/components/qr-code/qr-code.component';
 
 @Component({
   selector: 'app-hero-details',

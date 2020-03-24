@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 import { transition, trigger, useAnimation } from '@angular/animations';
 
-import { HeroService } from '../hero.service';
+import { HeroService } from '../../services/hero.service';
 
-import { listItemEnter, listItemLeave } from '../animations';
-import { Hero } from '../../data/hero';
+import { listItemEnter, listItemLeave } from '../../animations';
+import { Hero } from '../../../data/hero';
 
 @Component({
   selector: 'app-hero-list',

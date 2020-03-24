@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { environment as env } from '../environments/environment';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroDetailsComponent } from './hero-details/hero-details.component';
-import { HeroesComponent } from './heroes/heroes.component';
-import { TestsComponent } from './tests/tests.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HeroDetailsComponent } from './components/hero-details/hero-details.component';
+import { HeroesComponent } from './components/heroes/heroes.component';
+import { TestsComponent } from './components/tests/tests.component';
 
 // Routes
 const routes: Routes = [

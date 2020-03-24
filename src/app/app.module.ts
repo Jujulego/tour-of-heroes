@@ -16,20 +16,20 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
+import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { LoaderModule } from './modules/loader/loader.module';
 import { LoggingModule } from './modules/logging/logging.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
 
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './heroes/heroes.component';
-import { HeroDetailsComponent } from './hero-details/hero-details.component';
-import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { InMemoryDataService } from './in-memory-data.service';
-import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { HeroListComponent } from './hero-list/hero-list.component';
-import { TestsComponent } from './tests/tests.component';
+import { HeroesComponent } from './components/heroes/heroes.component';
+import { HeroDetailsComponent } from './components/hero-details/hero-details.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InMemoryDataService } from './services/in-memory-data.service';
+import { HeroSearchComponent } from './components/hero-search/hero-search.component';
+import { HeroListComponent } from './components/hero-list/hero-list.component';
+import { TestsComponent } from './components/tests/tests.component';
 
 import { environment as env } from '../environments/environment';
 
@@ -47,7 +47,6 @@ import { environment as env } from '../environments/environment';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    AppRoutingModule,
 
     HttpClientModule,
     ...(env.memoryApi ? [
@@ -70,6 +69,7 @@ import { environment as env } from '../environments/environment';
     MatSelectModule,
     MatRadioModule,
 
+    AppRoutingModule,
     LayoutModule,
     LoggingModule,
     LoaderModule,
