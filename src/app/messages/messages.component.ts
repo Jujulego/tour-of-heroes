@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { animate, style, transition, trigger, useAnimation } from '@angular/animations';
 
-import { MessageService } from '../message.service';
+import { LoggingService } from '../modules/logging/services/logging.service';
 import { listItemEnter, listItemLeave } from '../animations';
 
 @Component({
@@ -35,7 +35,7 @@ export class MessagesComponent {
   deployed = false;
 
   // Constructor
-  constructor(public messageService: MessageService) {}
+  constructor(public messageService: LoggingService) {}
 
   // Handlers
   toggle() {

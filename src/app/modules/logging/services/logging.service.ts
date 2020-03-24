@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class LoggingService {
   // Attributes
-  messages: string[] = [];
+  logs: string[] = [];
 
   // Methods
   add(message: string) {
-    this.messages.push(message);
+    this.logs.push(message);
   }
 
   clear() {
-    this.messages = [];
+    this.logs = [];
   }
 }

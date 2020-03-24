@@ -13,10 +13,5 @@
       <mat-icon class="expand" [class.less]="deployed">expand_more</mat-icon>
     </button>
   </mat-card-header>
-  <mat-list [@.disabled]="!deployed" [@messages]="messageService.messages.length">
-    <mat-list-item *ngFor="let message of messageService.messages; last as last">
-      {{ message }}
-      <mat-divider *ngIf="!last"></mat-divider>
-    </mat-list-item>
-  </mat-list>
+  <app-log-list [@.disabled]="!deployed"></app-log-list>
 </mat-card>

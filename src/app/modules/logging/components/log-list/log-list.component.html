@@ -1,0 +1,6 @@
+<mat-list class="log-list" [@logs]="logging.logs.length">
+  <mat-list-item *ngFor="let log of logging.logs; last as last">
+    {{ log }}
+    <mat-divider *ngIf="!last"></mat-divider>
+  </mat-list-item>
+</mat-list>

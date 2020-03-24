@@ -41,13 +41,9 @@
     }
   }
 
-  mat-list {
-    max-height: calc(100% - 76px);
+  app-log-list {
+    max-height: calc(100% - 58px);
 
-    margin: 0;
-    padding-bottom: 16px;
-
-    overflow-x: hidden;
     overflow-y: auto;
   }
 }
