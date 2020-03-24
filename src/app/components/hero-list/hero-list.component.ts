@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Input } from '@angular/core';
 import { transition, trigger, useAnimation } from '@angular/animations';
 
-import { HeroService } from '../../services/hero.service';
-
 import { listItemEnter, listItemLeave } from '../../animations';
 import { Hero } from '../../../data/hero';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-hero-list',
@@ -22,40 +23,24 @@ import { Hero } from '../../../data/hero';
     ])
   ]
 })
-export class HeroListComponent {
+export class HeroListComponent implements OnInit {
   // Attributes
-  private _heroes: Hero[] = []; // tslint:disable-line:variable-name
+  columns = ['name', 'universe'];
+  dataSource = new MatTableDataSource<Hero>([]);
 
   // Inputs
   @Input() canDelete = false;
   @Input() set heroes(heroes: Hero[]) {
-    if (!heroes) {
-      this._heroes = [];
-    } else {
-      for (let i = 0; i < heroes.length; ++i) {
-        const hero = heroes[i];
-        heroes[i] = this._heroes.find(h => h.id === hero.id) || hero;
-      }
-
-      this._heroes = heroes;
-    }
+    this.dataSource.data = heroes || [];
   }
 
-  get heroes(): Hero [] { return this._heroes; }
+  // Childs
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  // Constructor
-  constructor(
-    private heroService: HeroService
-  ) {}
-
-  // Methods
-  deleteHero(event: MouseEvent, hero: Hero) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const index = this.heroes.findIndex(h => h.id === hero.id);
-    this.heroes.splice(index, 1);
-
-    this.heroService.deleteHero(hero).subscribe();
+  // Lifecycle
+  ngOnInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }

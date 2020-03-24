@@ -32,6 +32,9 @@ import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { TestsComponent } from './components/tests/tests.component';
 
 import { environment as env } from '../environments/environment';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { environment as env } from '../environments/environment';
     LayoutModule,
     LoggingModule,
     LoaderModule,
-    QrCodeModule
+    QrCodeModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

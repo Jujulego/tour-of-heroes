@@ -7,6 +7,10 @@
 mat-card > :host {
   margin-left: -16px;
   margin-right: -16px;
+
+  table {
+    width: 100%;
+  }
 }
 
 mat-nav-list {

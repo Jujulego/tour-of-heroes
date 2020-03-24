@@ -1,16 +1,21 @@
-<mat-nav-list [@heroes]="heroes.length">
-  <a mat-list-item class="hero"
-     routerLink="/details/{{ hero.id }}"
-     *ngFor="let hero of heroes; last as last"
-  >
-    <span>{{ hero.name }}</span>
-    <button
-      mat-icon-button
-      *ngIf="canDelete"
-      (click)="deleteHero($event, hero)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-    <mat-divider *ngIf="!last"></mat-divider>
-  </a>
-</mat-nav-list>
+<table mat-table matSort [dataSource]="dataSource">
+  <!-- Columns -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let hero">
+      <a routerLink="/details/{{ hero.id }}">{{ hero.name }}</a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="universe">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Universe</th>
+    <td mat-cell *matCellDef="let hero">{{ hero.universe }}</td>
+  </ng-container>
+
+  <!-- Rows -->
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns"></tr>
+</table>
+
+<!-- Options -->
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
