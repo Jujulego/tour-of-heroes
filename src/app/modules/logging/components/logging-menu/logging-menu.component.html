@@ -1,0 +1,18 @@
+<button mat-icon-button [mat-menu-trigger-for]="menu">
+  <mat-icon>{{ logging.logs.length ? 'notifications' : 'notifications_none' }}</mat-icon>
+</button>
+
+<mat-menu #menu>
+  <div class="log-menu-title"
+    (click)="$event.stopPropagation()"
+  >
+    <h6>Notifications</h6>
+    <button mat-icon-button
+      (click)="logging.clear()"
+    >
+      <mat-icon>clear_all</mat-icon>
+    </button>
+  </div>
+  <mat-divider class="mt-2" *ngIf="logging.logs.length"></mat-divider>
+  <app-log-list></app-log-list>
+</mat-menu>

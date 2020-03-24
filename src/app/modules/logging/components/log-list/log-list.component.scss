@@ -5,4 +5,11 @@
 
 .log-list {
   overflow-x: hidden;
+
+  .log {
+    overflow-x: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

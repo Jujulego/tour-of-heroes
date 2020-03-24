@@ -19,7 +19,6 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailsComponent } from './hero-details/hero-details.component';
-import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InMemoryDataService } from './in-memory-data.service';
@@ -39,7 +38,6 @@ import { LoggingModule } from './modules/logging/logging.module';
     AppComponent,
     HeroesComponent,
     HeroDetailsComponent,
-    MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
     LoaderComponent,

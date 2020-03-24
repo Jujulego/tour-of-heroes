@@ -1,5 +1,7 @@
 <app-layout>
-  <app-appbar [title]="title"></app-appbar>
+  <app-appbar [title]="title">
+    <app-logging-menu></app-logging-menu>
+  </app-appbar>
 
   <mat-drawer-container>
     <mat-drawer app-drawer>
@@ -21,8 +23,6 @@
       <main>
         <router-outlet></router-outlet>
       </main>
-
-      <app-messages></app-messages>
     </mat-drawer-content>
   </mat-drawer-container>
 </app-layout>
