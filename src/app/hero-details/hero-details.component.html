@@ -123,17 +123,17 @@
           </div>
         </div>
         <div class="col-auto" *ngIf="hero">
-          <app-qrcode #qrcode
-            [data]="hero.name"
-            width="300"
-            [icon]="file || icon"
-            correction="H"
-            [renderMode]="renderMode.value"
-            [background]="background"
-            [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
-            [eyeStyle]="eyeStyle.value"
-            [squareStyle]="squareStyle.value"
-          ></app-qrcode>
+          <app-qr-code #qrcode
+                       [data]="hero.name"
+                       width="300"
+                       [icon]="file || icon"
+                       correction="H"
+                       [renderMode]="renderMode.value"
+                       [background]="background"
+                       [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
+                       [eyeStyle]="eyeStyle.value"
+                       [squareStyle]="squareStyle.value"
+          ></app-qr-code>
           <div class="d-flex justify-content-around my-2">
             <a mat-button color="primary" download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
             <a mat-button color="primary" download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>

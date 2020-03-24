@@ -19,6 +19,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { LayoutModule } from './modules/layout/layout.module';
 import { LoaderModule } from './modules/loader/loader.module';
 import { LoggingModule } from './modules/logging/logging.module';
+import { QrCodeModule } from './modules/qr-code/qr-code.module';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes.component';
@@ -29,7 +30,6 @@ import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { TestsComponent } from './tests/tests.component';
-import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
 
@@ -41,8 +41,7 @@ import { environment as env } from '../environments/environment';
     DashboardComponent,
     HeroSearchComponent,
     HeroListComponent,
-    TestsComponent,
-    QrcodeComponent
+    TestsComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +72,8 @@ import { environment as env } from '../environments/environment';
 
     LayoutModule,
     LoggingModule,
-    LoaderModule
+    LoaderModule,
+    QrCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

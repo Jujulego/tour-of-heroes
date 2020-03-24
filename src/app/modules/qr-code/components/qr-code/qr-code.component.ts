@@ -9,7 +9,7 @@ import { multicast, switchMap } from 'rxjs/operators';
 import * as qrcode from 'qrcode';
 import { QRCodeErrorCorrectionLevel } from 'qrcode';
 
-import { ImageDataService } from '../image-data.service';
+import { ImageDataService } from '../../services/image-data.service';
 
 import { Square } from './square';
 
@@ -44,11 +44,11 @@ function inEyeFrame(x: number, y: number, size: number): boolean {
 
 // Component
 @Component({
-  selector: 'app-qrcode',
-  templateUrl: './qrcode.component.html',
-  styleUrls: ['./qrcode.component.scss']
+  selector: 'app-qr-code',
+  templateUrl: './qr-code.component.html',
+  styleUrls: ['./qr-code.component.scss']
 })
-export class QrcodeComponent implements OnInit, AfterViewInit, OnChanges {
+export class QrCodeComponent implements OnInit, AfterViewInit, OnChanges {
   // Inputs
   @Input() data: string;
   @Input() version: string;
