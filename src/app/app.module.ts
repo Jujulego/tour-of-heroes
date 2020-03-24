@@ -16,6 +16,10 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
+import { LayoutModule } from './modules/layout/layout.module';
+import { LoaderModule } from './modules/loader/loader.module';
+import { LoggingModule } from './modules/logging/logging.module';
+
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailsComponent } from './hero-details/hero-details.component';
@@ -23,15 +27,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { LoaderComponent } from './loader/loader.component';
-import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { TestsComponent } from './tests/tests.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 
 import { environment as env } from '../environments/environment';
-import { LayoutModule } from './modules/layout/layout.module';
-import { LoggingModule } from './modules/logging/logging.module';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,6 @@ import { LoggingModule } from './modules/logging/logging.module';
     HeroDetailsComponent,
     DashboardComponent,
     HeroSearchComponent,
-    LoaderComponent,
-    LoaderOverlayComponent,
     HeroListComponent,
     TestsComponent,
     QrcodeComponent
@@ -72,8 +70,10 @@ import { LoggingModule } from './modules/logging/logging.module';
     MatButtonToggleModule,
     MatSelectModule,
     MatRadioModule,
+
     LayoutModule,
-    LoggingModule
+    LoggingModule,
+    LoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
