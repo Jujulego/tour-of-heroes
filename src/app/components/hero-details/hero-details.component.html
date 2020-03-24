@@ -1,156 +1,150 @@
-<div class="row">
-  <div class="col-xs-12 col-xl-auto mb-4">
-    <mat-card class="data">
-      <mat-card-header>
-        <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
-      </mat-card-header>
+<mat-card class="data mb-4">
+  <mat-card-header>
+    <mat-card-title>{{ hero?.name || id }} Details</mat-card-title>
+  </mat-card-header>
 
-      <app-loader-overlay *ngIf="loading"></app-loader-overlay>
+  <app-loader-overlay *ngIf="loading"></app-loader-overlay>
 
-      <mat-card-content>
-        <div *ngIf="hero">
-          <mat-form-field>
-            <mat-label>Id</mat-label>
-            <input matInput [value]="hero.id" disabled />
-          </mat-form-field>
-        </div>
-        <div *ngIf="hero">
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput [(ngModel)]="hero.name" />
-          </mat-form-field>
-        </div>
-        <div *ngIf="hero">
-          <mat-form-field>
-            <mat-label>Universe</mat-label>
-            <input matInput [(ngModel)]="hero.universe" />
-          </mat-form-field>
-        </div>
-      </mat-card-content>
+  <mat-card-content>
+    <div *ngIf="hero">
+      <mat-form-field>
+        <mat-label>Id</mat-label>
+        <input matInput [value]="hero.id" disabled />
+      </mat-form-field>
+    </div>
+    <div *ngIf="hero">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="hero.name" />
+      </mat-form-field>
+    </div>
+    <div *ngIf="hero">
+      <mat-form-field>
+        <mat-label>Universe</mat-label>
+        <input matInput [(ngModel)]="hero.universe" />
+      </mat-form-field>
+    </div>
+  </mat-card-content>
 
-      <mat-card-actions align="end">
-        <button
-          mat-button color="warn"
-          [disabled]="loading"
-          (click)="delete()"
-        >
-          DELETE
-        </button>
-        <button
-          mat-button color="primary"
-          [disabled]="loading"
-          (click)="save()"
-        >
-          SAVE
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <div class="col mb-4">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>QR Code Options</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="row">
-        <div class="col">
-          <div>
-            <mat-form-field>
-              <mat-label>Render mode</mat-label>
-              <mat-select #renderMode value="svg">
-                <mat-option value="canvas">Canvas</mat-option>
-                <mat-option value="svg">SVG</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Square style</mat-label>
-              <mat-select #squareStyle value="square">
-                <mat-option value="circle">Circle</mat-option>
-                <mat-option value="diamond">Diamond</mat-option>
-                <mat-option value="dot">Dot</mat-option>
-                <mat-option value="square">Square</mat-option>
-                <mat-option value="star">Star</mat-option>
-                <mat-option value="edge">Edge</mat-option>
-                <mat-option value="round">Round</mat-option>
-                <mat-option value="zebra">Zebra</mat-option>
-                <mat-option value="zebra-v">Zebra (vertical)</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Eye style</mat-label>
-              <mat-select #eyeStyle value="square">
-                <mat-option value="circle">Circle</mat-option>
-                <mat-option value="square">Square</mat-option>
-                <mat-option value="edge">Edge</mat-option>
-                <mat-option value="edge-int">Edge (internal)</mat-option>
-                <mat-option value="edge-side">Edge (side)</mat-option>
-                <mat-option value="edge-ext">Edge (external)</mat-option>
-                <mat-option value="round">Round</mat-option>
-                <mat-option value="round-int">Round (internal)</mat-option>
-                <mat-option value="round-side">Round (side)</mat-option>
-                <mat-option value="round-ext">Round (external)</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <h4>Foreground</h4>
-          <div class="foreground-type">
-            <mat-radio-group [(ngModel)]="foregroundType">
-              <mat-radio-button value="plain">Plain</mat-radio-button>
-              <mat-radio-button value="radial">Radial</mat-radio-button>
-              <mat-radio-button value="linear-x">Linear X</mat-radio-button>
-              <mat-radio-button value="linear-y">Linear Y</mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>{{ foregroundType !== 'plain' ? 'From' : 'Color' }}</mat-label>
-              <input matInput type=color [(ngModel)]="foregroundFrom" />
-            </mat-form-field>
-            <mat-form-field *ngIf="foregroundType !== 'plain'">
-              <mat-label>To</mat-label>
-              <input matInput type=color [(ngModel)]="foregroundTo" />
-            </mat-form-field>
-          </div>
-          <h4>Background</h4>
-          <div>
-            <mat-form-field>
-              <mat-label>Color</mat-label>
-              <input matInput type=color [(ngModel)]="background" />
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-auto" *ngIf="hero">
-          <app-qr-code #qrcode
-                       [data]="hero.name"
-                       width="300"
-                       [icon]="file || icon"
-                       correction="H"
-                       [renderMode]="renderMode.value"
-                       [background]="background"
-                       [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
-                       [eyeStyle]="eyeStyle.value"
-                       [squareStyle]="squareStyle.value"
-          ></app-qr-code>
-          <div class="d-flex justify-content-around my-2">
-            <a mat-button color="primary" download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
-            <a mat-button color="primary" download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>
-          </div>
-          <div class="d-flex justify-content-around my-2">
-            <img *ngFor="let i of icons"
-              class="icon img-thumbnail"
-              [class.selected]="!file && i === icon"
-              [src]="i"
-              (click)="selectIcon(i)"
-            />
-          </div>
-          <div class="my-2">
-            <input type=file (change)="fileChange($event)" />
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+  <mat-card-actions align="end">
+    <button
+      mat-button color="warn"
+      [disabled]="loading"
+      (click)="delete()"
+    >
+      DELETE
+    </button>
+    <button
+      mat-button color="primary"
+      [disabled]="loading"
+      (click)="save()"
+    >
+      SAVE
+    </button>
+  </mat-card-actions>
+</mat-card>
+<mat-card class="mb-4">
+  <mat-card-header>
+    <mat-card-title>QR Code Options</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="row">
+    <div class="col">
+      <div>
+        <mat-form-field>
+          <mat-label>Render mode</mat-label>
+          <mat-select #renderMode value="svg">
+            <mat-option value="canvas">Canvas</mat-option>
+            <mat-option value="svg">SVG</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Square style</mat-label>
+          <mat-select #squareStyle value="square">
+            <mat-option value="circle">Circle</mat-option>
+            <mat-option value="diamond">Diamond</mat-option>
+            <mat-option value="dot">Dot</mat-option>
+            <mat-option value="square">Square</mat-option>
+            <mat-option value="star">Star</mat-option>
+            <mat-option value="edge">Edge</mat-option>
+            <mat-option value="round">Round</mat-option>
+            <mat-option value="zebra">Zebra</mat-option>
+            <mat-option value="zebra-v">Zebra (vertical)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Eye style</mat-label>
+          <mat-select #eyeStyle value="square">
+            <mat-option value="circle">Circle</mat-option>
+            <mat-option value="square">Square</mat-option>
+            <mat-option value="edge">Edge</mat-option>
+            <mat-option value="edge-int">Edge (internal)</mat-option>
+            <mat-option value="edge-side">Edge (side)</mat-option>
+            <mat-option value="edge-ext">Edge (external)</mat-option>
+            <mat-option value="round">Round</mat-option>
+            <mat-option value="round-int">Round (internal)</mat-option>
+            <mat-option value="round-side">Round (side)</mat-option>
+            <mat-option value="round-ext">Round (external)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <h4>Foreground</h4>
+      <div class="foreground-type">
+        <mat-radio-group [(ngModel)]="foregroundType">
+          <mat-radio-button value="plain">Plain</mat-radio-button>
+          <mat-radio-button value="radial">Radial</mat-radio-button>
+          <mat-radio-button value="linear-x">Linear X</mat-radio-button>
+          <mat-radio-button value="linear-y">Linear Y</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>{{ foregroundType !== 'plain' ? 'From' : 'Color' }}</mat-label>
+          <input matInput type=color [(ngModel)]="foregroundFrom" />
+        </mat-form-field>
+        <mat-form-field *ngIf="foregroundType !== 'plain'">
+          <mat-label>To</mat-label>
+          <input matInput type=color [(ngModel)]="foregroundTo" />
+        </mat-form-field>
+      </div>
+      <h4>Background</h4>
+      <div>
+        <mat-form-field>
+          <mat-label>Color</mat-label>
+          <input matInput type=color [(ngModel)]="background" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-auto" *ngIf="hero">
+      <app-qr-code #qrcode
+        [data]="hero.name"
+        width="300"
+        [icon]="file || icon"
+        correction="H"
+        [renderMode]="renderMode.value"
+        [background]="background"
+        [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
+        [eyeStyle]="eyeStyle.value"
+        [squareStyle]="squareStyle.value"
+      ></app-qr-code>
+      <div class="d-flex justify-content-around my-2">
+        <a mat-button color="primary" download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
+        <a mat-button color="primary" download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>
+      </div>
+      <div class="d-flex justify-content-around my-2">
+        <img *ngFor="let i of icons"
+          class="icon img-thumbnail"
+          [class.selected]="!file && i === icon"
+          [src]="i"
+          (click)="selectIcon(i)"
+        />
+      </div>
+      <div class="my-2">
+        <input type=file (change)="fileChange($event)" />
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
