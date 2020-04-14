@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build",
-    "test": "snyk test && ng test",
+    "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "ng deploy"

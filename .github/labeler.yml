@@ -1,0 +1,10 @@
+dependencies:
+  - package.json
+  - package-lock.json
+
+docker:
+  - Dockerfile
+  - docker-compose.yml
+
+tests:
+  - src/**/*.test.ts
