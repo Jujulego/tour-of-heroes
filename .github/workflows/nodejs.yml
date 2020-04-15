@@ -1,0 +1,95 @@
+name: Test & Build
+
+on:
+  pull_request:
+    branches: [ master, dev ]
+
+  push:
+    branches: [ master, dev ]
+
+jobs:
+#  tests:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: Use Node.js 12.x
+#      uses: actions/setup-node@v1
+#      with:
+#        node-version: 12.x
+#
+#    - uses: actions/cache@v1
+#      with:
+#        path: ~/.npm
+#        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+#        restore-keys: ${{ runner.os }}-npm-
+#
+#    - name: Install dependencies
+#      run: npm install
+#
+#    - name: Tests
+#      env:
+#        CI: true
+#      run: npm run test
+#
+#    - name: Codecov
+#      uses: codecov/codecov-action@v1.0.6
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+#    needs: [ tests ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-npm-
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: tour-of-heroes
+        path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+#    needs: [ tests ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-npm-
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Deploy
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: npm run deploy -- --email="${{ github.event.pusher.email }}" --name="${{ github.event.pusher.name }}"
