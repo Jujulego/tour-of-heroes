@@ -91,7 +91,8 @@ jobs:
 
     - name: Deploy
       env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
         GH_TOKEN: github.token
       run: |
-        echo "{{{ github.actor }}}"
-        npm run deploy -- --email="julien.capellari@gmail.com" --name="{{{ github.actor }}}" --no-silent
+        echo $GITHUB_CONTEXT
+#        npm run deploy -- --email="julien.capellari@gmail.com" --name="${{ github.actor }}" --no-silent
