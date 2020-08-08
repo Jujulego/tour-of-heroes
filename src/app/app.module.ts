@@ -13,6 +13,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
@@ -21,6 +24,7 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { LoaderModule } from './modules/loader/loader.module';
 import { LoggingModule } from './modules/logging/logging.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
+import { SelectModule } from './modules/select/select.module';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
@@ -32,9 +36,6 @@ import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { TestsComponent } from './components/tests/tests.component';
 
 import { environment as env } from '../environments/environment';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { MatSortModule } from '@angular/material/sort';
     QrCodeModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    SelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

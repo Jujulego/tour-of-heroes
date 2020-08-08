@@ -10,6 +10,10 @@ import { OptionComponent } from './components/option/option.component';
     SelectComponent,
     OptionComponent
   ],
+  exports: [
+    SelectComponent,
+    OptionComponent
+  ],
   imports: [
     CommonModule
   ]

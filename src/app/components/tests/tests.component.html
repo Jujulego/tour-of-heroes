@@ -1,7 +1,16 @@
-<mat-button-toggle-group name="value" (change)="change($event.value)">
-  <mat-button-toggle value="1">1</mat-button-toggle>
-  <mat-button-toggle value="2">2</mat-button-toggle>
-  <mat-button-toggle value="3">3</mat-button-toggle>
-</mat-button-toggle-group>
+<div>
+  <mat-button-toggle-group name="value" (change)="change($event.value)">
+    <mat-button-toggle value="1">1</mat-button-toggle>
+    <mat-button-toggle value="2">2</mat-button-toggle>
+    <mat-button-toggle value="3">3</mat-button-toggle>
+  </mat-button-toggle-group>
 
-<p>{{ value }}</p>
+  <p>{{ value }}</p>
+</div>
+
+<div>
+  <app-select>
+    <app-option></app-option>
+    <app-option></app-option>
+  </app-select>
+</div>

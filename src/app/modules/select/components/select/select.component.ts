@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Self } from '@angular/core';
 
+import { SelectService } from '../../services/select.service';
+
+// Component
 @Component({
-  selector: 'app-selet',
+  selector: 'app-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss']
+  styleUrls: ['./select.component.scss'],
+  providers: [
+    SelectService
+  ]
 })
-export class SelectComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class SelectComponent {
+  // Constructor
+  constructor(
+    @Self() private service: SelectService
+  ) {}
 }
