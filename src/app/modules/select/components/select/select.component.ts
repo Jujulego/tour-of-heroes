@@ -1,4 +1,5 @@
-import { Component, Input, Self } from '@angular/core';
+import { Component, Input, OnInit, Self } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SelectService } from '../../services/select.service';
 
@@ -11,10 +12,11 @@ import { SelectService } from '../../services/select.service';
     SelectService
   ]
 })
-export class SelectComponent {
+export class SelectComponent implements OnInit {
   // Attributes
   @Input() placeholder?: string;
 
+  text: Observable<string>;
   open: boolean;
 
   // Constructor
@@ -22,8 +24,22 @@ export class SelectComponent {
     @Self() private service: SelectService
   ) {}
 
+  // Lifecycle
+  ngOnInit() {
+    const sub = new BehaviorSubject(this.placeholder);
+
+    this.service.value
+      .subscribe(value => sub.next(value.toString()));
+
+    this.text = sub.asObservable();
+  }
+
   // Methods
   toggleOpen() {
     this.open = !this.open;
+  }
+
+  closeOpen() {
+    this.open = false;
   }
 }

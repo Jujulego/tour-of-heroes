@@ -1,5 +1,9 @@
-<div class="select-box" [class.open]="open" (click)="toggleOpen()">
-  <p class="placeholder" *ngIf="placeholder">{{ placeholder }}</p>
+<div class="select-box" [class.open]="open"
+  tabindex="-1"
+  (click)="toggleOpen()"
+  (focusout)="closeOpen()"
+>
+  <p class="placeholder">{{ text | async }}</p>
   <mat-icon class="icon">keyboard_arrow_down</mat-icon>
 
   <div class="options" (click)="$event.stopPropagation()">

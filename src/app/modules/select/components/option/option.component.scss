@@ -6,7 +6,7 @@
 
   transition: background-color 250ms ease;
 
-  &:hover {
+  &:hover, &.selected {
     background-color: #575757;
   }
 }
