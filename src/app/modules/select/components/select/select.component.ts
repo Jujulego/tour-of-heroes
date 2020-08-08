@@ -1,4 +1,4 @@
-import { Component, Self } from '@angular/core';
+import { Component, Input, Self } from '@angular/core';
 
 import { SelectService } from '../../services/select.service';
 
@@ -12,6 +12,9 @@ import { SelectService } from '../../services/select.service';
   ]
 })
 export class SelectComponent {
+  // Attributes
+  @Input() placeholder?: string;
+
   // Constructor
   constructor(
     @Self() private service: SelectService

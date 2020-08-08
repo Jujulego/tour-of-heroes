@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SelectService } from 'src/app/modules/select/services/select.service';
 
 // Component
@@ -8,6 +8,9 @@ import { SelectService } from 'src/app/modules/select/services/select.service';
   styleUrls: ['./option.component.scss']
 })
 export class OptionComponent {
+  // Attributes
+  @Input() value: any;
+
   // Constructor
   constructor(
     private service: SelectService

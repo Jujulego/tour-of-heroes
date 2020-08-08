@@ -1,0 +1,17 @@
+.select-box {
+  min-height: 32px;
+  max-width: 200px;
+
+  padding: 4px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #424242;
+
+  .placeholder {
+    flex: 1;
+
+    margin: 0;
+  }
+}

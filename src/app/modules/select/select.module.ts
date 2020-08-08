@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SelectComponent } from './components/select/select.component';
 import { OptionComponent } from './components/option/option.component';
+import { MatIconModule } from '@angular/material/icon';
 
 // Module
 @NgModule({
@@ -15,7 +16,8 @@ import { OptionComponent } from './components/option/option.component';
     OptionComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule
   ]
 })
 export class SelectModule { }
