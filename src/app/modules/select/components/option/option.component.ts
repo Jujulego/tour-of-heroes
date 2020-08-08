@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectService } from 'src/app/modules/select/services/select.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './option.component.html',
   styleUrls: ['./option.component.scss']
 })
-export class OptionComponent implements OnInit {
+export class OptionComponent implements OnInit, OnDestroy {
   // Attributes
   @Input() value: any;
 
@@ -29,6 +29,10 @@ export class OptionComponent implements OnInit {
       .pipe(
         map(ids => (ids.indexOf(this.id) !== -1))
       );
+  }
+
+  ngOnDestroy() {
+    this.service.unregister(this.id);
   }
 
   // Methods

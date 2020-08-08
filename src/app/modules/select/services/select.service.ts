@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinct, map } from 'rxjs/operators';
 
 // Types
 export interface Option {
@@ -14,7 +14,8 @@ export class SelectService {
   multiple = false;
   private selectedIds: Set<number>;
   private subjectIds: BehaviorSubject<number[]>;
-  private options: Option[] = [];
+  private options: Record<number, Option> = {};
+  private nextId = 0;
 
   $selectedIds: Observable<number[]>;
   $selectedValues: Observable<any[]>;
@@ -28,8 +29,8 @@ export class SelectService {
   private init() {
     this.selectedIds = new Set();
     this.subjectIds = new BehaviorSubject<number[]>([]);
-    this.$selectedIds = this.subjectIds.asObservable();
 
+    this.$selectedIds = this.subjectIds.asObservable();
     this.$selectedValues = this.$selectedIds
       .pipe(
         map(ids => ids.map(id => this.options[id]?.value).filter(v => v))
@@ -37,10 +38,14 @@ export class SelectService {
   }
 
   register(value: any): number {
-    const id = this.options.length;
-    this.options.push({ value });
+    const id = this.nextId++;
+    this.options[id] = { value };
 
     return id;
+  }
+
+  unregister(id: number) {
+    delete this.options[id];
   }
 
   select(id: number) {
