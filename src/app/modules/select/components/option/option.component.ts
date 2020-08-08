@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { SelectService } from 'src/app/modules/select/services/select.service';
 
 // Component

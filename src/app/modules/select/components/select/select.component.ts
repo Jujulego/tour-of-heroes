@@ -15,8 +15,15 @@ export class SelectComponent {
   // Attributes
   @Input() placeholder?: string;
 
+  open: boolean;
+
   // Constructor
   constructor(
     @Self() private service: SelectService
   ) {}
+
+  // Methods
+  toggleOpen() {
+    this.open = !this.open;
+  }
 }

@@ -1,0 +1,12 @@
+.option {
+  min-height: 32px;
+  padding: 4px;
+
+  background-color: #424242;
+
+  transition: background-color 250ms ease;
+
+  &:hover {
+    background-color: #575757;
+  }
+}

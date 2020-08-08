@@ -1,7 +1,7 @@
 .select-box {
+  position: relative;
   min-height: 32px;
   max-width: 200px;
-
   padding: 4px;
 
   display: flex;
@@ -13,5 +13,40 @@
     flex: 1;
 
     margin: 0;
+  }
+
+  .icon {
+    flex: 0;
+
+    transform: rotate(0deg);
+    transition: transform 250ms ease;
+  }
+
+  .options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+
+    max-height: 0;
+    width: 100%;
+    overflow: hidden;
+
+    transition: max-height 250ms ease;
+  }
+
+  &.open {
+    .icon {
+      transform: rotate(180deg);
+    }
+
+    .options {
+      max-height: 300px;
+      overflow: auto;
+
+      border-top: solid 1px #575757;
+
+      transition: max-height 250ms ease;
+    }
   }
 }

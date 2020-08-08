@@ -1,6 +1,8 @@
-<div class="select-box">
+<div class="select-box" [class.open]="open" (click)="toggleOpen()">
   <p class="placeholder" *ngIf="placeholder">{{ placeholder }}</p>
   <mat-icon class="icon">keyboard_arrow_down</mat-icon>
-</div>
 
-<ng-content></ng-content>
+  <div class="options" (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>
