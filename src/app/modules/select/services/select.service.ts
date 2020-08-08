@@ -11,11 +11,13 @@ export interface Option {
 @Injectable()
 export class SelectService {
   // Attributes
+  multiple = false;
+  private selectedIds: Set<number>;
   private subjectIds: BehaviorSubject<number[]>;
   private options: Option[] = [];
 
-  selectedIds: Observable<number[]>;
-  selectedValues: Observable<any[]>;
+  $selectedIds: Observable<number[]>;
+  $selectedValues: Observable<any[]>;
 
   // Constructor
   constructor() {
@@ -24,10 +26,11 @@ export class SelectService {
 
   // Methods
   private init() {
+    this.selectedIds = new Set();
     this.subjectIds = new BehaviorSubject<number[]>([]);
-    this.selectedIds = this.subjectIds.asObservable();
+    this.$selectedIds = this.subjectIds.asObservable();
 
-    this.selectedValues = this.selectedIds
+    this.$selectedValues = this.$selectedIds
       .pipe(
         map(ids => ids.map(id => this.options[id]?.value).filter(v => v))
       );
@@ -41,6 +44,30 @@ export class SelectService {
   }
 
   select(id: number) {
-    this.subjectIds.next([id]);
+    if (!this.multiple) {
+      this.selectedIds.clear();
+    }
+
+    this.selectedIds.add(id);
+    this.subjectIds.next(Array.from(this.selectedIds));
+  }
+
+  unselect(id: number) {
+    this.selectedIds.delete(id);
+    this.subjectIds.next(Array.from(this.selectedIds));
+  }
+
+  toggle(id: number) {
+    if (this.selectedIds.has(id)) {
+      this.selectedIds.delete(id);
+    } else {
+      if (!this.multiple) {
+        this.selectedIds.clear();
+      }
+
+      this.selectedIds.add(id);
+    }
+
+    this.subjectIds.next(Array.from(this.selectedIds));
   }
 }

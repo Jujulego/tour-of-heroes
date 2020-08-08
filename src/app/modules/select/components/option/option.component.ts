@@ -25,7 +25,7 @@ export class OptionComponent implements OnInit {
   ngOnInit() {
     this.id = this.service.register(this.value);
 
-    this.isSelected = this.service.selectedIds
+    this.isSelected = this.service.$selectedIds
       .pipe(
         map(ids => (ids.indexOf(this.id) !== -1))
       );
@@ -33,6 +33,6 @@ export class OptionComponent implements OnInit {
 
   // Methods
   select() {
-    this.service.select(this.id);
+    this.service.toggle(this.id);
   }
 }

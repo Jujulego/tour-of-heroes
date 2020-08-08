@@ -15,4 +15,8 @@ export class TestsComponent {
   change(value: ValueType) {
     this.value = value;
   }
+
+  print(value: any) {
+    console.log(value);
+  }
 }

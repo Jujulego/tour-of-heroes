@@ -9,7 +9,7 @@
 </div>
 
 <div>
-  <app-select placeholder="test">
+  <app-select placeholder="Single" (selectChange)="print($event)">
     <app-option [value]="50">
       50 %
     </app-option>
@@ -17,5 +17,15 @@
       100 %
     </app-option>
   </app-select>
-  <p>toto aime les carrotes !</p>
+</div>
+
+<div>
+  <app-select placeholder="Multiple" [multiple]="true" (selectChange)="print($event)">
+    <app-option [value]="50">
+      50 %
+    </app-option>
+    <app-option [value]="100">
+      100 %
+    </app-option>
+  </app-select>
 </div>
