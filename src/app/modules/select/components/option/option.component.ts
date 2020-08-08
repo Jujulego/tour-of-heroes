@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { SelectService } from 'src/app/modules/select/services/select.service';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Component
@@ -12,6 +12,8 @@ import { map } from 'rxjs/operators';
 export class OptionComponent implements OnInit {
   // Attributes
   @Input() value: any;
+
+  private id: number;
   isSelected: Observable<boolean>;
 
   // Constructor
@@ -21,14 +23,16 @@ export class OptionComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
-    this.isSelected = this.service.value
+    this.id = this.service.register(this.value);
+
+    this.isSelected = this.service.selectedIds
       .pipe(
-        map(value => value === this.value)
+        map(ids => (ids.indexOf(this.id) !== -1))
       );
   }
 
   // Methods
   select() {
-    this.service.select(this.value);
+    this.service.select(this.id);
   }
 }
