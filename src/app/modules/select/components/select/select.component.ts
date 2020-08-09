@@ -19,7 +19,7 @@ export class SelectComponent implements OnInit {
   @Output() selectChange = new EventEmitter();
 
   open: boolean;
-  values: any[];
+  values: string;
 
   // Constructor
   constructor(
@@ -30,9 +30,9 @@ export class SelectComponent implements OnInit {
   ngOnInit() {
     this.service.multiple = this.multiple;
 
-    this.service.$selectedValues
-      .subscribe(values => {
-        this.values = values;
+    this.service.$selectedTexts
+      .subscribe(texts => {
+        this.values = texts.join(', ');
       });
 
     this.service.$selectedValues

@@ -3,8 +3,8 @@
   (click)="toggleOpen()"
   (focusout)="closeOpen()"
 >
-  <p class="placeholder" *ngIf="values.length === 0">{{ placeholder }}</p>
-  <p class="value" *ngIf="values.length > 0">{{ values.join(', ') }}</p>
+  <p class="placeholder" *ngIf="!values">{{ placeholder }}</p>
+  <p class="value" *ngIf="values">{{ values }}</p>
   <mat-icon class="icon">keyboard_arrow_down</mat-icon>
 
   <div class="options" (click)="$event.stopPropagation()">

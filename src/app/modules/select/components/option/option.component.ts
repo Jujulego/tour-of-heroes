@@ -18,12 +18,16 @@ export class OptionComponent implements OnInit, OnDestroy {
 
   // Constructor
   constructor(
-    private service: SelectService
+    private service: SelectService,
+    private elementRef: ElementRef<HTMLElement>
   ) {}
 
   // Lifecycle
   ngOnInit() {
-    this.id = this.service.register(this.value);
+    this.id = this.service.register(
+      this.value,
+      this.elementRef.nativeElement.textContent.trim()
+    );
 
     this.isSelected = this.service.$selectedIds
       .pipe(
