@@ -2,6 +2,5 @@
  * Public API Surface of qrcode
  */
 
-export * from './lib/qrcode.service';
-export * from './lib/qrcode.component';
-export * from './lib/qrcode.module';
+export * from './lib/components/qr-code/qr-code.component';
+export * from './lib/qr-code.module';
