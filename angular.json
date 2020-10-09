@@ -130,6 +130,46 @@
           }
         }
       }
+    },
+    "qrcode": {
+      "projectType": "library",
+      "root": "projects/qrcode",
+      "sourceRoot": "projects/qrcode/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/qrcode/tsconfig.lib.json",
+            "project": "projects/qrcode/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/qrcode/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/qrcode/src/test.ts",
+            "tsConfig": "projects/qrcode/tsconfig.spec.json",
+            "karmaConfig": "projects/qrcode/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/qrcode/tsconfig.lib.json",
+              "projects/qrcode/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "tour-of-heroes",
