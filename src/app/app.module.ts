@@ -23,7 +23,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { LoaderModule } from './modules/loader/loader.module';
 import { LoggingModule } from './modules/logging/logging.module';
-import { QrCodeModule } from './modules/qr-code/qr-code.module';
 import { SelectModule } from './modules/select/select.module';
 
 import { AppComponent } from './app.component';
@@ -36,6 +35,7 @@ import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { TestsComponent } from './components/tests/tests.component';
 
 import { environment as env } from '../environments/environment';
+import { QrCodeModule } from '@jujulego/qrcode';
 
 @NgModule({
   declarations: [
@@ -47,42 +47,43 @@ import { environment as env } from '../environments/environment';
     HeroListComponent,
     TestsComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
 
-    HttpClientModule,
-    ...(env.memoryApi ? [
-      HttpClientInMemoryWebApiModule.forRoot(
-        InMemoryDataService, {
-          dataEncapsulation: false,
-          passThruUnknownUrl: true,
-        }
-      ),
-    ] : []),
+        HttpClientModule,
+        ...(env.memoryApi ? [
+            HttpClientInMemoryWebApiModule.forRoot(
+                InMemoryDataService, {
+                    dataEncapsulation: false,
+                    passThruUnknownUrl: true,
+                }
+            ),
+        ] : []),
 
-    MatCardModule,
-    MatButtonModule,
-    MatListModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-    MatSelectModule,
-    MatRadioModule,
+        MatCardModule,
+        MatButtonModule,
+        MatListModule,
+        MatIconModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatSidenavModule,
+        MatButtonToggleModule,
+        MatSelectModule,
+        MatRadioModule,
 
-    AppRoutingModule,
-    LayoutModule,
-    LoggingModule,
-    LoaderModule,
-    QrCodeModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    SelectModule
-  ],
+        AppRoutingModule,
+        LayoutModule,
+        LoggingModule,
+        LoaderModule,
+        QrCodeModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        SelectModule,
+        QrCodeModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

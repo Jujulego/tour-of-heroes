@@ -44,7 +44,7 @@ function inEyeFrame(x: number, y: number, size: number): boolean {
 
 // Component
 @Component({
-  selector: 'app-qr-code',
+  selector: 'lib-qr-code',
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss']
 })

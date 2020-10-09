@@ -119,7 +119,7 @@
       </div>
     </div>
     <div class="col-auto" *ngIf="hero">
-      <app-qr-code #qrcode
+      <lib-qr-code #qrcode
         [data]="hero.name"
         width="300"
         [icon]="file || icon"
@@ -129,7 +129,7 @@
         [foreground]="{ type: foregroundType, from: foregroundFrom, to: foregroundTo }"
         [eyeStyle]="eyeStyle.value"
         [squareStyle]="squareStyle.value"
-      ></app-qr-code>
+      ></lib-qr-code>
       <div class="d-flex justify-content-around my-2">
         <a mat-button color="primary" download="qrcode.png" [href]="qrcode.downloadHref('png')">.PNG</a>
         <a mat-button color="primary" download="qrcode.svg" [href]="qrcode.downloadHref('svg')">.SVG</a>

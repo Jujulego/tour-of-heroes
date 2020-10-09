@@ -1,11 +1,12 @@
 {
-  "name": "qrcode",
+  "name": "@jujulego/qrcode",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
     "@angular/core": "^10.1.5"
   },
   "dependencies": {
+    "qrcode": "^1.4.4",
     "tslib": "^2.0.0"
   }
 }

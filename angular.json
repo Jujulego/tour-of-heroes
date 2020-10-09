@@ -131,38 +131,38 @@
         }
       }
     },
-    "qrcode": {
+    "@jujulego/qrcode": {
       "projectType": "library",
-      "root": "projects/qrcode",
-      "sourceRoot": "projects/qrcode/src",
+      "root": "projects/jujulego/qrcode",
+      "sourceRoot": "projects/jujulego/qrcode/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/qrcode/tsconfig.lib.json",
-            "project": "projects/qrcode/ng-package.json"
+            "tsConfig": "projects/jujulego/qrcode/tsconfig.lib.json",
+            "project": "projects/jujulego/qrcode/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/qrcode/tsconfig.lib.prod.json"
+              "tsConfig": "projects/jujulego/qrcode/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/qrcode/src/test.ts",
-            "tsConfig": "projects/qrcode/tsconfig.spec.json",
-            "karmaConfig": "projects/qrcode/karma.conf.js"
+            "main": "projects/jujulego/qrcode/src/test.ts",
+            "tsConfig": "projects/jujulego/qrcode/tsconfig.spec.json",
+            "karmaConfig": "projects/jujulego/qrcode/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/qrcode/tsconfig.lib.json",
-              "projects/qrcode/tsconfig.spec.json"
+              "projects/jujulego/qrcode/tsconfig.lib.json",
+              "projects/jujulego/qrcode/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
