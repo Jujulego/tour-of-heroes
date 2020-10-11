@@ -20,9 +20,9 @@
       "dom"
     ],
     "paths": {
-      "@jujulego/qrcode": [
-        "dist/jujulego/qrcode/jujulego-qrcode",
-        "dist/jujulego/qrcode"
+      "@meinas/qrcode": [
+        "dist/meinas/qrcode/meinas-qrcode",
+        "dist/meinas/qrcode"
       ]
     }
   },

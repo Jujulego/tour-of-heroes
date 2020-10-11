@@ -1,13 +1,10 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../../dist/jujulego/qrcode",
+  "dest": "../../../dist/meinas/qrcode",
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "qrcode": "qrcode"
     }
-  },
-  "whitelistedNonPeerDependencies": [
-    "qrcode"
-  ]
+  }
 }

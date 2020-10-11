@@ -6,7 +6,7 @@ import { AppbarService } from '../../modules/layout/services/appbar.service';
 import { HeroService } from '../../services/hero.service';
 
 import { Hero } from '../../../data/hero';
-import { GradientType } from '@jujulego/qrcode';
+import { GradientType } from '@meinas/qrcode';
 
 @Component({
   selector: 'app-hero-details',

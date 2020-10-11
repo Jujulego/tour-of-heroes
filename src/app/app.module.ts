@@ -35,7 +35,7 @@ import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { TestsComponent } from './components/tests/tests.component';
 
 import { environment as env } from '../environments/environment';
-import { QrCodeModule } from '@jujulego/qrcode';
+import { QrCodeModule } from '@meinas/qrcode';
 
 @NgModule({
   declarations: [
