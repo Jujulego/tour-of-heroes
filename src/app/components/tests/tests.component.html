@@ -31,5 +31,9 @@
 </div>
 
 <div>
-  <app-circular-progress [value]="50"></app-circular-progress>
+  <input #progress type="number" value="50" min="0" max="100" step="10" />
+</div>
+
+<div>
+  <app-circular-progress [value]="progress.value"></app-circular-progress>
 </div>

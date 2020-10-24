@@ -23,10 +23,6 @@ svg {
     fill: mat-color($tour-of-heroes-primary, 500);
   }
 
-  .fg {
-    fill: map-get($bg, card);
-  }
-
   .value {
     fill: map-get($fg, text);
     font-size: .5px;
