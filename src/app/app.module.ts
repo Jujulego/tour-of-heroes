@@ -27,6 +27,7 @@ import { QrCodeModule } from './modules/qr-code/qr-code.module';
 import { SelectModule } from './modules/select/select.module';
 
 import { AppComponent } from './app.component';
+import { CircularProgressComponent } from './components/circular-progress/circular-progress.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
 import { HeroDetailsComponent } from './components/hero-details/hero-details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -40,11 +41,12 @@ import { environment as env } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
+    CircularProgressComponent,
+    DashboardComponent,
     HeroesComponent,
     HeroDetailsComponent,
-    DashboardComponent,
-    HeroSearchComponent,
     HeroListComponent,
+    HeroSearchComponent,
     TestsComponent
   ],
   imports: [

@@ -1,0 +1,34 @@
+@import "~@angular/material/theming";
+@import "~src/theme";
+
+// Vars
+$config: mat-get-color-config($tour-of-heroes-theme);
+$fg: map-get($config, foreground);
+$bg: map-get($config, background);
+
+// Rules
+:host {
+  display: block;
+}
+
+svg {
+  max-width: 100%;
+  max-height: 100%;
+
+  .bg {
+    fill: map-get($fg, slider-off);
+  }
+
+  .progress {
+    fill: mat-color($tour-of-heroes-primary, 500);
+  }
+
+  .fg {
+    fill: map-get($bg, card);
+  }
+
+  .value {
+    fill: map-get($fg, text);
+    font-size: .5px;
+  }
+}
