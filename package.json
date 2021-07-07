@@ -24,7 +24,7 @@
     "@angular/router": "~10.1.5",
     "angular-in-memory-web-api": "^0.10.0",
     "bootstrap": "^4.5.0",
-    "d3": "^5.16.0",
+    "d3": "^7.0.0",
     "qrcode": "^1.4.4",
     "rxjs": "~6.6.3",
     "tslib": "^1.11.2",
