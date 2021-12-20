@@ -48,6 +48,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "baseHref": "/tour-of-heroes/",
+              "deployUrl": "/tour-of-heroes/",
               "budgets": [
                 {
                   "type": "initial",
